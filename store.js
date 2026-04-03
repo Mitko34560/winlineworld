@@ -7,7 +7,7 @@
     shopNotice: "Оплата проходит через Stripe. Для каждой привилегии можно указать свою ссылку Stripe Checkout или Payment Link.",
     stripeHelpUrl: "https://dashboard.stripe.com/payment-links",
     maintenanceEnabled: false,
-    maintenanceMessage: "Сайтът е в техническа поддръжка. Моля, опитайте отново по-късно.",
+    maintenanceMessage: "Сайт находится на технической поддержке. Пожалуйста, зайдите позже.",
     privileges: [
       {
         id: "vip",

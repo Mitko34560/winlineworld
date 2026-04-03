@@ -123,6 +123,7 @@ img {
 }
 
 .maintenance-banner {
+  display: none;
   border-bottom: 1px solid rgba(255, 194, 92, 0.18);
   background: linear-gradient(135deg, rgba(255, 183, 3, 0.16), rgba(255, 122, 24, 0.14));
   backdrop-filter: blur(12px);

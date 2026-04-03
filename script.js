@@ -5,8 +5,6 @@ const toast = document.getElementById("toast");
 const brandLogos = document.querySelectorAll(".brand-logo");
 const donateGrid = document.getElementById("donateGrid");
 const shopNotice = document.getElementById("shopNotice");
-const maintenanceBanner = document.getElementById("maintenanceBanner");
-const maintenanceText = document.getElementById("maintenanceText");
 const adminPrivilegeSummary = document.getElementById("adminPrivilegeSummary");
 const adminAuth = document.getElementById("adminAuth");
 const adminPanel = document.getElementById("adminPanel");
@@ -179,7 +177,7 @@ const renderDonateCards = (store) => {
       ? `href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener noreferrer"`
       : `href="admins.html"`;
     const note = maintenanceMode
-      ? store.maintenanceMessage
+      ? "Техническая поддержка"
       : hasStripe
       ? "Оплата через защищенную страницу Stripe."
       : "Stripe-ссылка пока не настроена в админ-панели.";
@@ -191,7 +189,7 @@ const renderDonateCards = (store) => {
         <h3>${escapeHtml(formatPrice(privilege))}</h3>
         <p>${escapeHtml(privilege.description)}</p>
         <ul>${perks}</ul>
-        <a class="${buttonClasses}" ${buttonAttrs}>${canBuy ? "Купить" : maintenanceMode ? "Тех. поддръжка" : "Настроить Stripe"}</a>
+        <a class="${buttonClasses}" ${buttonAttrs}>${canBuy ? "Купить" : maintenanceMode ? "Техническая поддержка" : "Настроить Stripe"}</a>
         <span class="buy-note">${escapeHtml(note)}</span>
       </article>
     `;
@@ -219,12 +217,9 @@ const renderStore = (store) => {
   }
 
   if (shopNotice) {
-    shopNotice.textContent = store.shopNotice;
-  }
-
-  if (maintenanceBanner && maintenanceText) {
-    maintenanceBanner.hidden = !store.maintenanceEnabled;
-    maintenanceText.textContent = store.maintenanceMessage || "";
+    shopNotice.textContent = store.maintenanceEnabled
+      ? "Техническая поддержка"
+      : store.shopNotice;
   }
 
   renderDonateCards(store);

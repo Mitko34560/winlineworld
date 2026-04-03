@@ -6,6 +6,9 @@ const errorText = document.getElementById("errorText");
 const summaryList = document.getElementById("summaryList");
 const shopNote = document.getElementById("shopNote");
 const maintenanceStatusText = document.getElementById("maintenanceStatusText");
+const maintenanceEnabledInput = document.getElementById("maintenanceEnabledInput");
+const maintenanceMessageInput = document.getElementById("maintenanceMessageInput");
+const saveMaintenanceButton = document.getElementById("saveMaintenanceButton");
 const copyIpButton = document.getElementById("copyIpButton");
 const logoutButton = document.getElementById("logoutButton");
 const ADMIN_PAGE_SESSION_KEY = "winlineworld_admin_panel_session";
@@ -44,14 +47,36 @@ const renderPanel = () => {
   }
 
   if (shopNote) {
-    shopNote.textContent = store.shopNotice;
+    shopNote.textContent = store.maintenanceEnabled
+      ? "Техническая поддержка"
+      : store.shopNotice;
+  }
+
+  if (maintenanceEnabledInput) {
+    maintenanceEnabledInput.checked = Boolean(store.maintenanceEnabled);
+  }
+
+  if (maintenanceMessageInput) {
+    maintenanceMessageInput.value = store.maintenanceMessage;
   }
 
   if (maintenanceStatusText) {
     maintenanceStatusText.textContent = store.maintenanceEnabled
-      ? `Включена е техническа поддръжка: ${store.maintenanceMessage}`
-      : "Техническата поддръжка е изключена.";
+      ? "Техническая поддержка включена"
+      : "Техническая поддержка выключена";
   }
+};
+
+const saveMaintenanceState = () => {
+  if (!window.WinlineStore) {
+    return;
+  }
+
+  const store = window.WinlineStore.getStore();
+  store.maintenanceEnabled = Boolean(maintenanceEnabledInput?.checked);
+  store.maintenanceMessage = maintenanceMessageInput?.value.trim() || "Сайт находится на технической поддержке. Пожалуйста, зайдите позже.";
+  const savedStore = window.WinlineStore.saveStore(store);
+  renderPanel(savedStore);
 };
 
 loginForm?.addEventListener("submit", async (event) => {
@@ -99,6 +124,8 @@ logoutButton?.addEventListener("click", () => {
   loginForm?.reset();
 });
 
+saveMaintenanceButton?.addEventListener("click", saveMaintenanceState);
+
 if (sessionStorage.getItem(ADMIN_PAGE_SESSION_KEY) === "1") {
   setAuthenticated(true);
   renderPanel();
@@ -106,4 +133,6 @@ if (sessionStorage.getItem(ADMIN_PAGE_SESSION_KEY) === "1") {
   setAuthenticated(false);
 }
 
-window.addEventListener("winlineworld:store-updated", renderPanel);
+window.addEventListener("winlineworld:store-updated", () => {
+  renderPanel();
+});

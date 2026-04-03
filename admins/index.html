@@ -72,7 +72,18 @@
       <section class="dashboard-grid">
         <article class="dashboard-card">
           <span class="chip">Maintenance</span>
-          <h3>Техническа поддръжка</h3>
+          <h3>Техническая поддержка</h3>
+          <label class="check-row">
+            <input id="maintenanceEnabledInput" type="checkbox">
+            <span>Включить техническую поддержку</span>
+          </label>
+          <div class="field">
+            <label class="label" for="maintenanceMessageInput">Текст сообщения</label>
+            <textarea class="textarea" id="maintenanceMessageInput" placeholder="Сайт находится на технической поддержке. Пожалуйста, зайдите позже."></textarea>
+          </div>
+          <div class="toolbar">
+            <button class="button" type="button" id="saveMaintenanceButton">Сохранить</button>
+          </div>
           <div class="note-box">
             <p id="maintenanceStatusText"></p>
           </div>

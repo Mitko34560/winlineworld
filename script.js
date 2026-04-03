@@ -5,6 +5,9 @@ const toast = document.getElementById("toast");
 const brandLogos = document.querySelectorAll(".brand-logo");
 const donateGrid = document.getElementById("donateGrid");
 const shopNotice = document.getElementById("shopNotice");
+const maintenanceScreen = document.getElementById("maintenanceScreen");
+const maintenanceScreenText = document.getElementById("maintenanceScreenText");
+const siteShell = document.querySelectorAll("[data-site-shell]");
 const adminPrivilegeSummary = document.getElementById("adminPrivilegeSummary");
 const adminAuth = document.getElementById("adminAuth");
 const adminPanel = document.getElementById("adminPanel");
@@ -16,6 +19,7 @@ const adminLogoutButtons = document.querySelectorAll("[data-admin-logout]");
 const adminClosePanelButtons = document.querySelectorAll("[data-admin-close-panel]");
 const ADMIN_SESSION_KEY = "winlineworld_admin_session";
 const ADMIN_PASSWORD_HASH = "84e3e4d71a7e3696a29ba8052d1ad310700b31e51d09a06b1a3bd5eaa420456a";
+const MAINTENANCE_LABEL = "Сайт закрыт на технические работы";
 
 let adminTriggerCount = 0;
 let adminTriggerTimer = 0;
@@ -177,7 +181,7 @@ const renderDonateCards = (store) => {
       ? `href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener noreferrer"`
       : `href="admins.html"`;
     const note = maintenanceMode
-      ? "Техническая поддержка"
+      ? MAINTENANCE_LABEL
       : hasStripe
       ? "Оплата через защищенную страницу Stripe."
       : "Stripe-ссылка пока не настроена в админ-панели.";
@@ -189,7 +193,7 @@ const renderDonateCards = (store) => {
         <h3>${escapeHtml(formatPrice(privilege))}</h3>
         <p>${escapeHtml(privilege.description)}</p>
         <ul>${perks}</ul>
-        <a class="${buttonClasses}" ${buttonAttrs}>${canBuy ? "Купить" : maintenanceMode ? "Техническая поддержка" : "Настроить Stripe"}</a>
+        <a class="${buttonClasses}" ${buttonAttrs}>${canBuy ? "Купить" : maintenanceMode ? "Закрыто на техработы" : "Настроить Stripe"}</a>
         <span class="buy-note">${escapeHtml(note)}</span>
       </article>
     `;
@@ -216,9 +220,23 @@ const renderStore = (store) => {
     return;
   }
 
+  const maintenanceMode = Boolean(store.maintenanceEnabled);
+
+  siteShell.forEach((element) => {
+    element.hidden = maintenanceMode;
+  });
+
+  if (maintenanceScreen) {
+    maintenanceScreen.hidden = !maintenanceMode;
+  }
+
+  if (maintenanceScreenText) {
+    maintenanceScreenText.textContent = store.maintenanceMessage || MAINTENANCE_LABEL;
+  }
+
   if (shopNotice) {
-    shopNotice.textContent = store.maintenanceEnabled
-      ? "Техническая поддержка"
+    shopNotice.textContent = maintenanceMode
+      ? MAINTENANCE_LABEL
       : store.shopNotice;
   }
 

@@ -17,7 +17,7 @@
   <div class="page-glow page-glow-right"></div>
   <div class="grid-overlay"></div>
 
-  <header class="navbar">
+  <header class="navbar" data-site-shell>
     <div class="container nav-inner">
       <a class="brand" href="#top">
         <span class="brand-logo">W</span>
@@ -47,7 +47,15 @@
     </div>
   </div>
 
-  <main id="top">
+  <section class="maintenance-screen" id="maintenanceScreen" hidden>
+    <div class="container maintenance-screen-inner">
+      <span class="section-kicker">Технические работы</span>
+      <h1>WinlineWorld</h1>
+      <p id="maintenanceScreenText">Сайт закрыт на технические работы. Пожалуйста, зайдите позже.</p>
+    </div>
+  </section>
+
+  <main id="top" data-site-shell>
     <section class="hero section">
       <div class="container hero-layout">
         <div class="hero-copy reveal">
@@ -173,7 +181,7 @@
     </section>
   </main>
 
-  <footer class="footer" id="footer">
+  <footer class="footer" id="footer" data-site-shell>
     <div class="container footer-inner">
       <div>
         <a class="brand footer-brand" href="#top">

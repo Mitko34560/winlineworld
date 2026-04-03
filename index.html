@@ -43,7 +43,7 @@
     <section class="hero section">
       <div class="container hero-layout">
         <div class="hero-copy reveal">
-          <div class="hero-badge">Гриферское выживание</div>
+          <div class="hero-badge">Minecraft сервер нового уровня</div>
           <h1>WinlineWorld</h1>
           <p>Лучший Minecraft сервер с привилегиями</p>
 
@@ -246,6 +246,83 @@
       </div>
     </div>
   </footer>
+
+  <div class="admin-auth" id="adminAuth" aria-hidden="true">
+    <div class="admin-backdrop" data-admin-close></div>
+    <div class="admin-modal">
+      <button class="admin-close" type="button" aria-label="Закрыть вход" data-admin-close>&times;</button>
+      <span class="admin-chip">Admin Access</span>
+      <h2>Панель управления WinlineWorld</h2>
+      <p>Введите пароль администратора, чтобы открыть скрытую панель.</p>
+
+      <form class="admin-form" id="adminLoginForm">
+        <label class="admin-label" for="adminPassword">Пароль</label>
+        <input class="admin-input" id="adminPassword" name="adminPassword" type="password" autocomplete="current-password" placeholder="Введите пароль" required>
+        <button class="btn btn-primary admin-submit" type="submit">Войти</button>
+        <p class="admin-error" id="adminError" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <section class="admin-panel" id="adminPanel" aria-hidden="true">
+    <div class="admin-panel-backdrop" data-admin-close-panel></div>
+    <div class="admin-panel-shell">
+      <div class="admin-panel-head">
+        <div>
+          <span class="admin-chip">Hidden Control</span>
+          <h2>WinlineWorld Admin Panel</h2>
+          <p>Быстрый доступ к основным ссылкам, управлению и информации сервера.</p>
+        </div>
+
+        <div class="admin-toolbar">
+          <button class="admin-toolbar-btn" type="button" data-admin-logout>Выйти</button>
+          <button class="admin-toolbar-btn" type="button" data-admin-close-panel>Закрыть</button>
+        </div>
+      </div>
+
+      <div class="admin-panel-grid">
+        <article class="admin-card">
+          <span class="admin-card-label">Статус</span>
+          <h3>Основные данные</h3>
+          <ul class="admin-list">
+            <li>Сервер: WinlineWorld</li>
+            <li>IP: winlineworld.veroid.fun</li>
+            <li>Discord: подключён</li>
+            <li>Донат: easydonate</li>
+          </ul>
+        </article>
+
+        <article class="admin-card">
+          <span class="admin-card-label">Быстрые действия</span>
+          <h3>Управление ссылками</h3>
+          <div class="admin-actions">
+            <button class="admin-action" type="button" data-copy="winlineworld.veroid.fun">Скопировать IP</button>
+            <a class="admin-action" href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Открыть Discord</a>
+            <a class="admin-action" href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">Открыть форум</a>
+            <a class="admin-action" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Открыть донат</a>
+          </div>
+        </article>
+
+        <article class="admin-card">
+          <span class="admin-card-label">Привилегии</span>
+          <h3>Магазин</h3>
+          <ul class="admin-list">
+            <li>VIP — 99₽</li>
+            <li>PREMIUM — 199₽</li>
+            <li>ELITE — 299₽</li>
+            <li>LEGEND — 499₽</li>
+            <li>ADMIN — 999₽</li>
+          </ul>
+        </article>
+
+        <article class="admin-card admin-card-wide">
+          <span class="admin-card-label">Примечание</span>
+          <h3>Как работает скрытый доступ</h3>
+          <p>Панель не отображается в меню сайта и открывается только по скрытому действию. Авторизация хранится только в текущей вкладке браузера.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
   <div class="toast" id="toast">IP сервера скопирован</div>
 </body>

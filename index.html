@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WinlineWorld | Minecraft Сервер</title>
+  <meta name="description" content="WinlineWorld — современный Minecraft сервер с красивыми привилегиями, дружелюбным комьюнити и быстрым донат-магазином.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oxanium:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="page-glow page-glow-left"></div>
+  <div class="page-glow page-glow-right"></div>
+  <div class="grid-overlay"></div>
+
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">
+        <span class="brand-logo">W</span>
+        <span class="brand-text">WinlineWorld</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Открыть меню" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-menu">
+        <a href="#server-info">Информация</a>
+        <a href="#donate">Привилегии</a>
+        <a href="#features">Почему мы</a>
+        <a href="#footer">Контакты</a>
+        <a class="nav-cta" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Донат</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero section">
+      <div class="container hero-layout">
+        <div class="hero-copy reveal">
+          <div class="hero-badge">Minecraft сервер нового уровня</div>
+          <h1>WinlineWorld</h1>
+          <p>Лучший Minecraft сервер с привилегиями</p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#server-info" data-copy="winlineworld.veroid.fun">Играть</a>
+            <a class="btn btn-secondary" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Купить привилегию</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-card">
+              <span class="stat-label">IP сервера</span>
+              <strong>winlineworld.veroid.fun</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Поддержка</span>
+              <strong>Discord 24/7</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="scene-card">
+            <div class="scene-cube cube-main"></div>
+            <div class="scene-cube cube-small cube-one"></div>
+            <div class="scene-cube cube-small cube-two"></div>
+            <div class="scene-panel">
+              <span>ONLINE WORLD</span>
+              <strong>Играй. Развивайся. Доминируй.</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section info-section" id="server-info">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="section-kicker">❗ Информация о сервере</span>
+          <h2>Все нужные ссылки в одном месте</h2>
+        </div>
+
+        <div class="info-grid">
+          <a class="info-card reveal" href="#" data-copy="winlineworld.veroid.fun">
+            <span class="info-icon">IP</span>
+            <h3>winlineworld.veroid.fun</h3>
+            <p>Нажми, чтобы скопировать адрес сервера и зайти в игру быстрее.</p>
+            <span class="info-link">Скопировать IP</span>
+          </a>
+
+          <a class="info-card reveal" href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">
+            <span class="info-icon">DS</span>
+            <h3>Discord</h3>
+            <p>Общение с игроками, новости сервера и быстрый контакт с администрацией.</p>
+            <span class="info-link">Перейти в Discord</span>
+          </a>
+
+          <a class="info-card reveal" href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">
+            <span class="info-icon">FR</span>
+            <h3>Форум</h3>
+            <p>Следи за обновлениями, обсуждениями и важными объявлениями проекта.</p>
+            <span class="info-link">Открыть форум</span>
+          </a>
+
+          <a class="info-card reveal" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">
+            <span class="info-icon">WD</span>
+            <h3>Донат-магазин</h3>
+            <p>Удобная покупка привилегий, кейсов и внутриигровых бонусов без лишних шагов.</p>
+            <span class="info-link">Открыть магазин</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section donate-section" id="donate">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="section-kicker">Донат / Привилегии</span>
+          <h2>Выбери свой уровень силы</h2>
+        </div>
+
+        <div class="donate-grid">
+          <article class="donate-card reveal">
+            <div class="card-glow"></div>
+            <span class="tier-label">VIP</span>
+            <h3>99₽</h3>
+            <p>Стартовый набор привилегий, цветной ник, быстрые команды и приятные бонусы.</p>
+            <ul>
+              <li>/kit vip</li>
+              <li>/hat и /feed</li>
+              <li>Ускоренный старт</li>
+            </ul>
+            <a class="btn btn-card" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Купить</a>
+          </article>
+
+          <article class="donate-card reveal">
+            <div class="card-glow"></div>
+            <span class="tier-label">PREMIUM</span>
+            <h3>199₽</h3>
+            <p>Расширенные команды для комфортной игры и уверенного преимущества на сервере.</p>
+            <ul>
+              <li>/kit premium</li>
+              <li>/workbench и /heal</li>
+              <li>Больше слотов дома</li>
+            </ul>
+            <a class="btn btn-card" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Купить</a>
+          </article>
+
+          <article class="donate-card reveal featured-card">
+            <div class="card-glow"></div>
+            <span class="tier-label">ELITE</span>
+            <h3>299₽</h3>
+            <p>Баланс мощности и удобства: усиленные возможности, эффекты и заметный статус.</p>
+            <ul>
+              <li>/kit elite</li>
+              <li>/fly в безопасных зонах</li>
+              <li>Эксклюзивные эффекты</li>
+            </ul>
+            <a class="btn btn-card" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Купить</a>
+          </article>
+
+          <article class="donate-card reveal">
+            <div class="card-glow"></div>
+            <span class="tier-label">LEGEND</span>
+            <h3>499₽</h3>
+            <p>Для тех, кто хочет максимум возможностей, быстрый прогресс и яркий статус.</p>
+            <ul>
+              <li>/kit legend</li>
+              <li>/near и /repair</li>
+              <li>Расширенные варпы</li>
+            </ul>
+            <a class="btn btn-card" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Купить</a>
+          </article>
+
+          <article class="donate-card reveal">
+            <div class="card-glow"></div>
+            <span class="tier-label">ADMIN</span>
+            <h3>999₽</h3>
+            <p>Максимальная привилегия с топовым набором команд, эффектов и персональным стилем.</p>
+            <ul>
+              <li>/kit admin</li>
+              <li>Уникальные префиксы</li>
+              <li>Премиальный пакет бонусов</li>
+            </ul>
+            <a class="btn btn-card" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Купить</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section features-section" id="features">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="section-kicker">Почему выбрать нас</span>
+          <h2>Сервер, в который хочется возвращаться</h2>
+        </div>
+
+        <div class="features-grid">
+          <article class="feature-card reveal">
+            <div class="feature-icon">⚡</div>
+            <h3>Быстрый сервер</h3>
+            <p>Стабильная работа, плавный геймплей и минимальный отклик даже в активные часы.</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="feature-icon">🛒</div>
+            <h3>Донат без лагов</h3>
+            <p>Покупки проходят быстро и удобно, а привилегии выдаются без лишнего ожидания.</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="feature-icon">🤝</div>
+            <h3>Дружелюбное комьюнити</h3>
+            <p>Активные игроки, поддержка новичков и комфортная атмосфера для всех участников.</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="feature-icon">🚀</div>
+            <h3>Частые обновления</h3>
+            <p>Новые режимы, улучшения и игровые события, которые делают проект живым и интересным.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="footer">
+    <div class="container footer-inner">
+      <div>
+        <a class="brand footer-brand" href="#top">
+          <span class="brand-logo">W</span>
+          <span class="brand-text">WinlineWorld</span>
+        </a>
+        <p>WinlineWorld © 2026</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Discord</a>
+        <a href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">Форум</a>
+        <a href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Донат</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">IP сервера скопирован</div>
+</body>
+</html>

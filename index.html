@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oxanium:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="store.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -34,7 +35,7 @@
         <a href="#donate">Привилегии</a>
         <a href="#features">Почему мы</a>
         <a href="#footer">Контакты</a>
-        <a class="nav-cta" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Донат</a>
+        <a class="nav-cta" href="#donate">Донат</a>
       </nav>
     </div>
   </header>
@@ -49,7 +50,7 @@
 
           <div class="hero-actions">
             <a class="btn btn-primary" href="#server-info" data-copy="winlineworld.veroid.fun">Играть</a>
-            <a class="btn btn-secondary" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Купить привилегию</a>
+            <a class="btn btn-secondary" href="#donate">Купить привилегию</a>
           </div>
 
           <div class="hero-stats">
@@ -107,11 +108,11 @@
             <span class="info-link">Открыть форум</span>
           </a>
 
-          <a class="info-card reveal" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">
+          <a class="info-card reveal" href="#donate">
             <span class="info-icon">WD</span>
-            <h3>Донат-магазин</h3>
-            <p>Удобная покупка привилегий, кейсов и внутриигровых бонусов без лишних шагов.</p>
-            <span class="info-link">Открыть магазин</span>
+            <h3>Stripe Магазин</h3>
+            <p>Выбор привилегии и переход на защищенную оплату через Stripe Checkout или Payment Link.</p>
+            <span class="info-link">Открыть привилегии</span>
           </a>
         </div>
       </div>
@@ -124,72 +125,8 @@
           <h2>Выбери свой уровень силы</h2>
         </div>
 
-        <div class="donate-grid">
-          <article class="donate-card reveal">
-            <div class="card-glow"></div>
-            <span class="tier-label">Colyfun</span>
-            <h3>99₽</h3>
-            <p>Стартовый набор привилегий, цветной ник, быстрые команды и приятные бонусы.</p>
-            <ul>
-              <li>/kit colyfun</li>
-              <li>/hat и /feed</li>
-              <li>Ускоренный старт</li>
-            </ul>
-            <a class="btn btn-card" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Купить</a>
-          </article>
-
-          <article class="donate-card reveal">
-            <div class="card-glow"></div>
-            <span class="tier-label">PREMIUM</span>
-            <h3>199₽</h3>
-            <p>Расширенные команды для комфортной игры и уверенного преимущества на сервере.</p>
-            <ul>
-              <li>/kit premium</li>
-              <li>/workbench и /heal</li>
-              <li>Больше слотов дома</li>
-            </ul>
-            <a class="btn btn-card" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Купить</a>
-          </article>
-
-          <article class="donate-card reveal featured-card">
-            <div class="card-glow"></div>
-            <span class="tier-label">ELITE</span>
-            <h3>299₽</h3>
-            <p>Баланс мощности и удобства: усиленные возможности, эффекты и заметный статус.</p>
-            <ul>
-              <li>/kit elite</li>
-              <li>/fly в безопасных зонах</li>
-              <li>Эксклюзивные эффекты</li>
-            </ul>
-            <a class="btn btn-card" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Купить</a>
-          </article>
-
-          <article class="donate-card reveal">
-            <div class="card-glow"></div>
-            <span class="tier-label">LEGEND</span>
-            <h3>499₽</h3>
-            <p>Для тех, кто хочет максимум возможностей, быстрый прогресс и яркий статус.</p>
-            <ul>
-              <li>/kit legend</li>
-              <li>/near и /repair</li>
-              <li>Расширенные варпы</li>
-            </ul>
-            <a class="btn btn-card" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Купить</a>
-          </article>
-
-          <article class="donate-card reveal">
-            <div class="card-glow"></div>
-            <span class="tier-label">ADMIN</span>
-            <h3>999₽</h3>
-            <p>Максимальная привилегия с топовым набором команд, эффектов и персональным стилем.</p>
-            <ul>
-              <li>/kit admin</li>
-              <li>Уникальные префиксы</li>
-              <li>Премиальный пакет бонусов</li>
-            </ul>
-            <a class="btn btn-card" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Купить</a>
-          </article>
-        </div>
+        <p class="section-note reveal" id="shopNotice"></p>
+        <div class="donate-grid" id="donateGrid"></div>
       </div>
     </section>
 
@@ -242,7 +179,7 @@
       <div class="footer-links">
         <a href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Discord</a>
         <a href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">Форум</a>
-        <a href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Донат</a>
+        <a href="#donate">Донат</a>
       </div>
     </div>
   </footer>
@@ -288,7 +225,7 @@
             <li>Сервер: WinlineWorld</li>
             <li>IP: winlineworld.veroid.fun</li>
             <li>Discord: подключён</li>
-            <li>Донат: easydonate</li>
+            <li>Донат: Stripe магазин</li>
           </ul>
         </article>
 
@@ -299,26 +236,21 @@
             <button class="admin-action" type="button" data-copy="winlineworld.veroid.fun">Скопировать IP</button>
             <a class="admin-action" href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Открыть Discord</a>
             <a class="admin-action" href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">Открыть форум</a>
-            <a class="admin-action" href="https://winlineworld.easydonate.ru" target="_blank" rel="noopener noreferrer">Открыть донат</a>
+            <a class="admin-action" href="admins.html">Открыть /admins</a>
+            <a class="admin-action" href="editor.html">Редактор привилегий</a>
           </div>
         </article>
 
         <article class="admin-card">
           <span class="admin-card-label">Привилегии</span>
-          <h3>Магазин</h3>
-          <ul class="admin-list">
-            <li>VIP — 99₽</li>
-            <li>PREMIUM — 199₽</li>
-            <li>ELITE — 299₽</li>
-            <li>LEGEND — 499₽</li>
-            <li>ADMIN — 999₽</li>
-          </ul>
+          <h3>Обзор магазина</h3>
+          <ul class="admin-list" id="adminPrivilegeSummary"></ul>
         </article>
 
         <article class="admin-card admin-card-wide">
           <span class="admin-card-label">Примечание</span>
-          <h3>Как работает скрытый доступ</h3>
-          <p>Панель не отображается в меню сайта и открывается только по скрытому действию. Авторизация хранится только в текущей вкладке браузера.</p>
+          <h3>Как теперь устроен доступ</h3>
+          <p>Скрытая панель на главной снова работает как быстрый хаб. Классическая админ-панель открывается на странице /admins, а редактирование привилегий и Stripe-ссылок вынесено на отдельную страницу editor с тем же паролем.</p>
         </article>
       </div>
     </div>

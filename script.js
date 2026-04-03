@@ -1,10 +1,11 @@
 const navToggle = document.querySelector(".nav-toggle");
 const navMenu = document.querySelector(".nav-menu");
 const navLinks = document.querySelectorAll(".nav-menu a");
-const copyTriggers = document.querySelectorAll("[data-copy]");
-const revealItems = document.querySelectorAll(".reveal");
 const toast = document.getElementById("toast");
 const brandLogos = document.querySelectorAll(".brand-logo");
+const donateGrid = document.getElementById("donateGrid");
+const shopNotice = document.getElementById("shopNotice");
+const adminPrivilegeSummary = document.getElementById("adminPrivilegeSummary");
 const adminAuth = document.getElementById("adminAuth");
 const adminPanel = document.getElementById("adminPanel");
 const adminLoginForm = document.getElementById("adminLoginForm");
@@ -18,6 +19,7 @@ const ADMIN_PASSWORD_HASH = "84e3e4d71a7e3696a29ba8052d1ad310700b31e51d09a06b1a3
 
 let adminTriggerCount = 0;
 let adminTriggerTimer = 0;
+let revealObserver = null;
 
 if (navToggle && navMenu) {
   navToggle.addEventListener("click", () => {
@@ -129,7 +131,7 @@ const copyText = async (text) => {
       showToast("IP сервера скопирован");
       return true;
     } catch (fallbackError) {
-      showToast("Скопируйте IP вручную: " + text);
+      showToast("Скопируйте вручную: " + text);
       return false;
     } finally {
       fallbackInput.remove();
@@ -137,25 +139,110 @@ const copyText = async (text) => {
   }
 };
 
-copyTriggers.forEach((trigger) => {
-  trigger.addEventListener("click", async (event) => {
-    const text = trigger.getAttribute("data-copy");
+const observeRevealItems = (scope = document) => {
+  const items = scope.querySelectorAll(".reveal");
 
-    if (!text) {
+  items.forEach((item) => {
+    if (item.dataset.revealBound === "1") {
       return;
     }
 
-    event.preventDefault();
-    await copyText(text);
+    item.dataset.revealBound = "1";
 
-    const targetHref = trigger.getAttribute("href");
-    if (targetHref && targetHref.startsWith("#")) {
-      document.querySelector(targetHref)?.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+    if (revealObserver) {
+      revealObserver.observe(item);
+    } else {
+      item.classList.add("is-visible");
     }
   });
+};
+
+const renderDonateCards = (store) => {
+  if (!donateGrid || !window.WinlineStore) {
+    return;
+  }
+
+  const { escapeHtml, formatPrice } = window.WinlineStore;
+  const cards = store.privileges.map((privilege) => {
+    const perks = privilege.perks.length
+      ? privilege.perks.map((perk) => `<li>${escapeHtml(perk)}</li>`).join("")
+      : "<li>Список бонусов скоро появится</li>";
+    const buyUrl = privilege.stripeUrl.trim();
+    const hasStripe = /^https?:\/\//i.test(buyUrl);
+    const cardClasses = `donate-card reveal${privilege.featured ? " featured-card" : ""}`;
+    const buttonClasses = `btn btn-card${hasStripe ? "" : " is-disabled"}`;
+    const buttonAttrs = hasStripe
+      ? `href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener noreferrer"`
+      : `href="admins.html"`;
+    const note = hasStripe
+      ? "Оплата через защищенную страницу Stripe."
+      : "Stripe-ссылка пока не настроена в админ-панели.";
+
+    return `
+      <article class="${cardClasses}">
+        <div class="card-glow"></div>
+        <span class="tier-label">${escapeHtml(privilege.name)}</span>
+        <h3>${escapeHtml(formatPrice(privilege))}</h3>
+        <p>${escapeHtml(privilege.description)}</p>
+        <ul>${perks}</ul>
+        <a class="${buttonClasses}" ${buttonAttrs}>${hasStripe ? "Купить" : "Настроить Stripe"}</a>
+        <span class="buy-note">${escapeHtml(note)}</span>
+      </article>
+    `;
+  }).join("");
+
+  donateGrid.innerHTML = cards;
+  observeRevealItems(donateGrid);
+};
+
+const renderAdminSummary = (store) => {
+  if (!adminPrivilegeSummary || !window.WinlineStore) {
+    return;
+  }
+
+  const { escapeHtml, formatPrice } = window.WinlineStore;
+  adminPrivilegeSummary.innerHTML = store.privileges.map((privilege) => {
+    const stripeState = privilege.stripeUrl ? "Stripe подключен" : "Stripe не настроен";
+    return `<li>${escapeHtml(privilege.name)} — ${escapeHtml(formatPrice(privilege))} • ${escapeHtml(stripeState)}</li>`;
+  }).join("");
+};
+
+const renderStore = (store) => {
+  if (!store) {
+    return;
+  }
+
+  if (shopNotice) {
+    shopNotice.textContent = store.shopNotice;
+  }
+
+  renderDonateCards(store);
+  renderAdminSummary(store);
+};
+
+document.addEventListener("click", async (event) => {
+  const trigger = event.target.closest("[data-copy]");
+
+  if (!trigger) {
+    return;
+  }
+
+  const text = trigger.getAttribute("data-copy");
+
+  if (!text) {
+    return;
+  }
+
+  event.preventDefault();
+  await copyText(text);
+
+  const targetHref = trigger.getAttribute("href");
+  if (targetHref && targetHref.startsWith("#")) {
+    document.querySelector(targetHref)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
 });
 
 brandLogos.forEach((logo) => {
@@ -229,19 +316,25 @@ adminLoginForm?.addEventListener("submit", async (event) => {
 });
 
 if ("IntersectionObserver" in window) {
-  const observer = new IntersectionObserver((entries) => {
+  revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
+        revealObserver.unobserve(entry.target);
       }
     });
   }, {
     threshold: 0.16,
     rootMargin: "0px 0px -40px 0px"
   });
+}
 
-  revealItems.forEach((item) => observer.observe(item));
-} else {
-  revealItems.forEach((item) => item.classList.add("is-visible"));
+observeRevealItems();
+
+if (window.WinlineStore) {
+  renderStore(window.WinlineStore.getStore());
+
+  window.addEventListener("winlineworld:store-updated", (event) => {
+    renderStore(event.detail);
+  });
 }

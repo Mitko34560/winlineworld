@@ -4,6 +4,7 @@ const navLinks = document.querySelectorAll(".nav-menu a");
 const toast = document.getElementById("toast");
 const brandLogos = document.querySelectorAll(".brand-logo");
 const donateGrid = document.getElementById("donateGrid");
+const newsGrid = document.querySelector(".news-layout");
 const shopNotice = document.getElementById("shopNotice");
 const maintenanceScreen = document.getElementById("maintenanceScreen");
 const maintenanceScreenText = document.getElementById("maintenanceScreenText");
@@ -248,6 +249,44 @@ const renderAdminSummary = (store) => {
   }).join("");
 };
 
+const renderNewsCards = (store) => {
+  if (!newsGrid || !window.WinlineStore) {
+    return;
+  }
+
+  const { escapeHtml } = window.WinlineStore;
+  const cards = store.news.map((item) => {
+    const cardClass = `news-card reveal${item.featured ? " news-card-featured" : ""}`;
+    const href = item.linkUrl && item.linkUrl.trim() ? item.linkUrl.trim() : "#news";
+    const external = /^https?:\/\//i.test(href);
+    const attrs = external
+      ? `href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer"`
+      : `href="${escapeHtml(href)}"`;
+
+    return `
+      <article class="${cardClass}">
+        <span class="news-tag">${escapeHtml(item.tag)}</span>
+        <span class="news-date">${escapeHtml(item.date)}</span>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.text)}</p>
+        <a class="news-link" ${attrs}>${escapeHtml(item.linkLabel)}</a>
+      </article>
+    `;
+  }).join("");
+
+  newsGrid.innerHTML = cards || `
+    <article class="news-card reveal">
+      <span class="news-tag">Новости</span>
+      <span class="news-date">Скоро</span>
+      <h3>Раздел новостей пока пуст</h3>
+      <p>Добавьте первую новость через админ-панель, и она сразу появится на сайте.</p>
+      <a class="news-link" href="admins.html">Открыть админ-панель</a>
+    </article>
+  `;
+
+  observeRevealItems(newsGrid);
+};
+
 const renderStore = (store) => {
   if (!store) {
     return;
@@ -274,6 +313,7 @@ const renderStore = (store) => {
   }
 
   renderDonateCards(store);
+  renderNewsCards(store);
   renderAdminSummary(store);
 };
 

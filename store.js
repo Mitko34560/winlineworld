@@ -6,11 +6,43 @@
   const LEGACY_PRIVILEGE_NAMES = ["VIP", "PREMIUM", "ELITE", "LEGEND", "ADMIN"];
 
   const DEFAULT_STORE = {
-    version: 2,
+    version: 3,
     shopNotice: "В этом разделе собраны игровые префиксы сервера. Для каждого можно указать свою Stripe-ссылку в редакторе.",
     stripeHelpUrl: "https://dashboard.stripe.com/payment-links",
     maintenanceEnabled: false,
     maintenanceMessage: "Сайт закрыт на технические работы. Пожалуйста, зайдите позже.",
+    news: [
+      {
+        id: "news-shop",
+        tag: "Обновление",
+        date: "03.04.2026",
+        title: "Новый магазин привилегий уже на сайте",
+        text: "Мы запустили обновленную витрину префиксов с удобными карточками, плавной анимацией и быстрым переходом к оплате.",
+        linkLabel: "Открыть магазин",
+        linkUrl: "#donate",
+        featured: true
+      },
+      {
+        id: "news-events",
+        tag: "Событие",
+        date: "01.04.2026",
+        title: "Еженедельные ивенты и бонусы за активность",
+        text: "На сервере стартовали новые активности, а за участие в событиях игроки получают награды, ресурсы и редкие бонусы.",
+        linkLabel: "Смотреть в Discord",
+        linkUrl: "https://discord.gg/x6GWKRKdkc",
+        featured: false
+      },
+      {
+        id: "news-info",
+        tag: "Информация",
+        date: "29.03.2026",
+        title: "Все анонсы проекта теперь в одном разделе",
+        text: "Следи за новостями сервера, изменениями в правилах и будущими обновлениями здесь, а также на форуме проекта.",
+        linkLabel: "Открыть форум",
+        linkUrl: "https://f-winlineworld.hgweb.ru/index.php",
+        featured: false
+      }
+    ],
     privileges: [
       {
         id: "nova",
@@ -117,12 +149,12 @@
   };
 
   const createId = (name, index) => {
-    const normalized = String(name || `privilege-${index + 1}`)
+    const normalized = String(name || `item-${index + 1}`)
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
 
-    return normalized || `privilege-${index + 1}`;
+    return normalized || `item-${index + 1}`;
   };
 
   const normalizePerks = (value) => {
@@ -160,6 +192,22 @@
     };
   };
 
+  const normalizeNewsItem = (newsItem, index) => {
+    const source = newsItem && typeof newsItem === "object" ? newsItem : {};
+    const title = safeString(source.title, `Новость ${index + 1}`);
+
+    return {
+      id: safeString(source.id, createId(title, index)),
+      tag: safeString(source.tag, "Новость"),
+      date: safeString(source.date, ""),
+      title,
+      text: safeString(source.text, "Описание новости пока не заполнено."),
+      linkLabel: safeString(source.linkLabel, "Подробнее"),
+      linkUrl: safeString(source.linkUrl, "#news"),
+      featured: Boolean(source.featured)
+    };
+  };
+
   const shouldUpgradePrivileges = (privileges) => {
     if (!Array.isArray(privileges) || !privileges.length) {
       return false;
@@ -187,6 +235,9 @@
     const privilegeSource = Array.isArray(source.privileges) && source.privileges.length
       ? source.privileges
       : DEFAULT_STORE.privileges;
+    const newsSource = Array.isArray(source.news)
+      ? source.news
+      : DEFAULT_STORE.news;
 
     const normalizedShopNotice = safeString(source.shopNotice, DEFAULT_STORE.shopNotice);
     const shopNotice = normalizedShopNotice === LEGACY_SHOP_NOTICE
@@ -199,6 +250,7 @@
       stripeHelpUrl: safeString(source.stripeHelpUrl, DEFAULT_STORE.stripeHelpUrl),
       maintenanceEnabled: Boolean(source.maintenanceEnabled),
       maintenanceMessage: safeString(source.maintenanceMessage, DEFAULT_STORE.maintenanceMessage),
+      news: newsSource.map((newsItem, index) => normalizeNewsItem(newsItem, index)),
       privileges: shouldUpgradePrivileges(privilegeSource)
         ? migrateLegacyPrivileges(privilegeSource)
         : privilegeSource.map((privilege, index) => normalizePrivilege(privilege, index))

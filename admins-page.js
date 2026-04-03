@@ -11,6 +11,10 @@ const maintenanceMessageInput = document.getElementById("maintenanceMessageInput
 const saveMaintenanceButton = document.getElementById("saveMaintenanceButton");
 const copyIpButton = document.getElementById("copyIpButton");
 const logoutButton = document.getElementById("logoutButton");
+const newsEditors = document.getElementById("newsEditors");
+const addNewsButton = document.getElementById("addNewsButton");
+const saveNewsButton = document.getElementById("saveNewsButton");
+const newsHelperText = document.getElementById("newsHelperText");
 const ADMIN_PAGE_SESSION_KEY = "winlineworld_admin_panel_session";
 const ADMIN_PASSWORD_HASH = "84e3e4d71a7e3696a29ba8052d1ad310700b31e51d09a06b1a3bd5eaa420456a";
 
@@ -29,6 +33,85 @@ const sha256 = async (value) => {
   return Array.from(new Uint8Array(buffer))
     .map((byte) => byte.toString(16).padStart(2, "0"))
     .join("");
+};
+
+const createNews = (index = 0) => {
+  const defaults = window.WinlineStore?.DEFAULT_STORE?.news || [];
+  const template = defaults[index] || defaults[defaults.length - 1] || {};
+  const uniqueId = `news-${Date.now()}-${index + 1}`;
+
+  return {
+    id: uniqueId,
+    tag: template.tag || "Новость",
+    date: template.date || "",
+    title: template.title || "Новая новость",
+    text: template.text || "Краткое описание новости.",
+    linkLabel: template.linkLabel || "Подробнее",
+    linkUrl: template.linkUrl || "#news",
+    featured: Boolean(template.featured && index === 0)
+  };
+};
+
+const renderNewsEditors = (store) => {
+  if (!newsEditors || !window.WinlineStore) {
+    return;
+  }
+
+  const { escapeHtml } = window.WinlineStore;
+  const items = Array.isArray(store.news) ? store.news : [];
+
+  newsEditors.innerHTML = items.map((item, index) => `
+    <article class="editor-card${item.featured ? " featured" : ""}" data-news-editor data-id="${escapeHtml(item.id)}">
+      <div class="editor-meta">
+        <div>
+          <span class="chip">News ${index + 1}</span>
+          <h3 class="editor-title">${escapeHtml(item.title || `Новость ${index + 1}`)}</h3>
+        </div>
+        <button class="small-button danger" type="button" data-remove-news>Удалить</button>
+      </div>
+
+      <div class="field">
+        <label class="label">Тег</label>
+        <input class="input" type="text" data-field="tag" value="${escapeHtml(item.tag)}" placeholder="Обновление">
+      </div>
+
+      <div class="field">
+        <label class="label">Дата</label>
+        <input class="input" type="text" data-field="date" value="${escapeHtml(item.date)}" placeholder="03.04.2026">
+      </div>
+
+      <div class="field">
+        <label class="label">Заголовок</label>
+        <input class="input" type="text" data-field="title" value="${escapeHtml(item.title)}" placeholder="Заголовок новости">
+      </div>
+
+      <div class="field">
+        <label class="label">Текст</label>
+        <textarea class="textarea" data-field="text" placeholder="Текст новости">${escapeHtml(item.text)}</textarea>
+      </div>
+
+      <div class="field">
+        <label class="label">Текст кнопки</label>
+        <input class="input" type="text" data-field="linkLabel" value="${escapeHtml(item.linkLabel)}" placeholder="Подробнее">
+      </div>
+
+      <div class="field">
+        <label class="label">Ссылка</label>
+        <input class="input" type="text" data-field="linkUrl" value="${escapeHtml(item.linkUrl)}" placeholder="https://... или #donate">
+      </div>
+
+      <label class="check-row">
+        <input type="checkbox" data-field="featured" ${item.featured ? "checked" : ""}>
+        <span>Сделать большой карточкой</span>
+      </label>
+    </article>
+  `).join("");
+
+  if (newsHelperText) {
+    newsHelperText.textContent = items.length
+      ? `Новостей в блоке: ${items.length}`
+      : "Новостей пока нет. Добавь первую запись.";
+  }
 };
 
 const renderPanel = () => {
@@ -65,6 +148,23 @@ const renderPanel = () => {
       ? "Техническая поддержка включена"
       : "Техническая поддержка выключена";
   }
+
+  renderNewsEditors(store);
+};
+
+const collectNewsFromEditors = () => {
+  const editors = Array.from(document.querySelectorAll("[data-news-editor]"));
+
+  return editors.map((editor, index) => ({
+    id: editor.getAttribute("data-id") || `news-${index + 1}`,
+    tag: editor.querySelector('[data-field="tag"]')?.value.trim() || "Новость",
+    date: editor.querySelector('[data-field="date"]')?.value.trim() || "",
+    title: editor.querySelector('[data-field="title"]')?.value.trim() || `Новость ${index + 1}`,
+    text: editor.querySelector('[data-field="text"]')?.value.trim() || "Описание новости пока не заполнено.",
+    linkLabel: editor.querySelector('[data-field="linkLabel"]')?.value.trim() || "Подробнее",
+    linkUrl: editor.querySelector('[data-field="linkUrl"]')?.value.trim() || "#news",
+    featured: Boolean(editor.querySelector('[data-field="featured"]')?.checked)
+  }));
 };
 
 const saveMaintenanceState = () => {
@@ -75,8 +175,24 @@ const saveMaintenanceState = () => {
   const store = window.WinlineStore.getStore();
   store.maintenanceEnabled = Boolean(maintenanceEnabledInput?.checked);
   store.maintenanceMessage = maintenanceMessageInput?.value.trim() || "Сайт закрыт на технические работы. Пожалуйста, зайдите позже.";
-  const savedStore = window.WinlineStore.saveStore(store);
-  renderPanel(savedStore);
+  window.WinlineStore.saveStore(store);
+  renderPanel();
+};
+
+const saveNewsState = () => {
+  if (!window.WinlineStore) {
+    return;
+  }
+
+  const store = window.WinlineStore.getStore();
+  store.news = collectNewsFromEditors();
+  window.WinlineStore.saveStore(store);
+
+  if (newsHelperText) {
+    newsHelperText.textContent = "Новости сохранены и уже отображаются на сайте.";
+  }
+
+  renderPanel();
 };
 
 loginForm?.addEventListener("submit", async (event) => {
@@ -125,6 +241,37 @@ logoutButton?.addEventListener("click", () => {
 });
 
 saveMaintenanceButton?.addEventListener("click", saveMaintenanceState);
+saveNewsButton?.addEventListener("click", saveNewsState);
+
+addNewsButton?.addEventListener("click", () => {
+  if (!window.WinlineStore) {
+    return;
+  }
+
+  const store = window.WinlineStore.getStore();
+  const nextNews = createNews(Array.isArray(store.news) ? store.news.length : 0);
+  store.news = Array.isArray(store.news) ? [...store.news, nextNews] : [nextNews];
+  renderNewsEditors(window.WinlineStore.normalizeStore(store));
+
+  if (newsHelperText) {
+    newsHelperText.textContent = "Новая новость добавлена. Не забудь сохранить изменения.";
+  }
+});
+
+newsEditors?.addEventListener("click", (event) => {
+  const removeButton = event.target.closest("[data-remove-news]");
+
+  if (!removeButton) {
+    return;
+  }
+
+  const editor = removeButton.closest("[data-news-editor]");
+  editor?.remove();
+
+  if (newsHelperText) {
+    newsHelperText.textContent = "Новость удалена из списка. Нажми «Сохранить новости», чтобы применить изменения.";
+  }
+});
 
 if (sessionStorage.getItem(ADMIN_PAGE_SESSION_KEY) === "1") {
   setAuthenticated(true);

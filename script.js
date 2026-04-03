@@ -5,6 +5,8 @@ const toast = document.getElementById("toast");
 const brandLogos = document.querySelectorAll(".brand-logo");
 const donateGrid = document.getElementById("donateGrid");
 const shopNotice = document.getElementById("shopNotice");
+const maintenanceBanner = document.getElementById("maintenanceBanner");
+const maintenanceText = document.getElementById("maintenanceText");
 const adminPrivilegeSummary = document.getElementById("adminPrivilegeSummary");
 const adminAuth = document.getElementById("adminAuth");
 const adminPanel = document.getElementById("adminPanel");
@@ -169,12 +171,16 @@ const renderDonateCards = (store) => {
       : "<li>Список бонусов скоро появится</li>";
     const buyUrl = privilege.stripeUrl.trim();
     const hasStripe = /^https?:\/\//i.test(buyUrl);
-    const cardClasses = `donate-card reveal${privilege.featured ? " featured-card" : ""}`;
-    const buttonClasses = `btn btn-card${hasStripe ? "" : " is-disabled"}`;
-    const buttonAttrs = hasStripe
+    const maintenanceMode = Boolean(store.maintenanceEnabled);
+    const cardClasses = `donate-card reveal${privilege.featured ? " featured-card" : ""}${maintenanceMode ? " is-maintenance" : ""}`;
+    const canBuy = hasStripe && !maintenanceMode;
+    const buttonClasses = `btn btn-card${canBuy ? "" : " is-disabled"}`;
+    const buttonAttrs = canBuy
       ? `href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener noreferrer"`
       : `href="admins.html"`;
-    const note = hasStripe
+    const note = maintenanceMode
+      ? store.maintenanceMessage
+      : hasStripe
       ? "Оплата через защищенную страницу Stripe."
       : "Stripe-ссылка пока не настроена в админ-панели.";
 
@@ -185,7 +191,7 @@ const renderDonateCards = (store) => {
         <h3>${escapeHtml(formatPrice(privilege))}</h3>
         <p>${escapeHtml(privilege.description)}</p>
         <ul>${perks}</ul>
-        <a class="${buttonClasses}" ${buttonAttrs}>${hasStripe ? "Купить" : "Настроить Stripe"}</a>
+        <a class="${buttonClasses}" ${buttonAttrs}>${canBuy ? "Купить" : maintenanceMode ? "Тех. поддръжка" : "Настроить Stripe"}</a>
         <span class="buy-note">${escapeHtml(note)}</span>
       </article>
     `;
@@ -214,6 +220,11 @@ const renderStore = (store) => {
 
   if (shopNotice) {
     shopNotice.textContent = store.shopNotice;
+  }
+
+  if (maintenanceBanner && maintenanceText) {
+    maintenanceBanner.hidden = !store.maintenanceEnabled;
+    maintenanceText.textContent = store.maintenanceMessage || "";
   }
 
   renderDonateCards(store);

@@ -6,6 +6,8 @@
     version: 1,
     shopNotice: "Оплата проходит через Stripe. Для каждой привилегии можно указать свою ссылку Stripe Checkout или Payment Link.",
     stripeHelpUrl: "https://dashboard.stripe.com/payment-links",
+    maintenanceEnabled: false,
+    maintenanceMessage: "Сайтът е в техническа поддръжка. Моля, опитайте отново по-късно.",
     privileges: [
       {
         id: "vip",
@@ -125,6 +127,8 @@
       version: 1,
       shopNotice: safeString(source.shopNotice, DEFAULT_STORE.shopNotice),
       stripeHelpUrl: safeString(source.stripeHelpUrl, DEFAULT_STORE.stripeHelpUrl),
+      maintenanceEnabled: Boolean(source.maintenanceEnabled),
+      maintenanceMessage: safeString(source.maintenanceMessage, DEFAULT_STORE.maintenanceMessage),
       privileges: privilegeSource.map((privilege, index) => normalizePrivilege(privilege, index))
     };
   };

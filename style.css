@@ -103,6 +103,7 @@ img {
 }
 
 .navbar,
+.maintenance-banner,
 .hero,
 .info-section,
 .donate-section,
@@ -119,6 +120,29 @@ img {
   backdrop-filter: blur(18px);
   background: rgba(20, 12, 6, 0.72);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.maintenance-banner {
+  border-bottom: 1px solid rgba(255, 194, 92, 0.18);
+  background: linear-gradient(135deg, rgba(255, 183, 3, 0.16), rgba(255, 122, 24, 0.14));
+  backdrop-filter: blur(12px);
+}
+
+.maintenance-banner .container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.maintenance-banner strong {
+  color: #fff0c8;
+}
+
+.maintenance-banner span {
+  color: var(--text);
 }
 
 .nav-inner {
@@ -709,6 +733,13 @@ img {
   box-shadow: none;
   border-color: rgba(255, 194, 92, 0.16);
   pointer-events: none;
+}
+
+.donate-card.is-maintenance {
+  border-color: rgba(255, 194, 92, 0.3);
+  box-shadow:
+    0 30px 62px rgba(5, 10, 32, 0.5),
+    0 0 38px rgba(255, 183, 3, 0.1);
 }
 
 .feature-icon {

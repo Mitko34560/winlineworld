@@ -5,6 +5,7 @@ const passwordInput = document.getElementById("password");
 const errorText = document.getElementById("errorText");
 const summaryList = document.getElementById("summaryList");
 const shopNote = document.getElementById("shopNote");
+const maintenanceStatusText = document.getElementById("maintenanceStatusText");
 const copyIpButton = document.getElementById("copyIpButton");
 const logoutButton = document.getElementById("logoutButton");
 const ADMIN_PAGE_SESSION_KEY = "winlineworld_admin_panel_session";
@@ -44,6 +45,12 @@ const renderPanel = () => {
 
   if (shopNote) {
     shopNote.textContent = store.shopNotice;
+  }
+
+  if (maintenanceStatusText) {
+    maintenanceStatusText.textContent = store.maintenanceEnabled
+      ? `Включена е техническа поддръжка: ${store.maintenanceMessage}`
+      : "Техническата поддръжка е изключена.";
   }
 };
 

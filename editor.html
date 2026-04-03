@@ -49,6 +49,16 @@
           <span class="chip">Общие настройки</span>
           <h3>Витрина магазина</h3>
 
+          <label class="check-row">
+            <input id="maintenanceEnabledInput" type="checkbox">
+            <span>Включить режим технической поддержки</span>
+          </label>
+
+          <div class="field">
+            <label class="label" for="maintenanceMessageInput">Текст о технической поддержке</label>
+            <textarea class="textarea" id="maintenanceMessageInput" placeholder="Например: сайт временно недоступен из-за технической поддержки."></textarea>
+          </div>
+
           <div class="field">
             <label class="label" for="shopNoticeInput">Текст под секцией доната</label>
             <textarea class="textarea" id="shopNoticeInput" placeholder="Например: оплата проходит через Stripe..."></textarea>

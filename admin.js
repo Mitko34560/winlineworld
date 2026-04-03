@@ -12,6 +12,8 @@ const privilegeEditors = document.getElementById("privilegeEditors");
 const summaryList = document.getElementById("summaryList");
 const shopNoticeInput = document.getElementById("shopNoticeInput");
 const stripeHelpUrlInput = document.getElementById("stripeHelpUrlInput");
+const maintenanceEnabledInput = document.getElementById("maintenanceEnabledInput");
+const maintenanceMessageInput = document.getElementById("maintenanceMessageInput");
 const stripeHelpLink = document.getElementById("stripeHelpLink");
 const homeLink = document.getElementById("homeLink");
 const ADMIN_FILE_SESSION_KEY = "winlineworld_admin_file_session";
@@ -129,6 +131,14 @@ const renderStore = (store) => {
     shopNoticeInput.value = store.shopNotice;
   }
 
+  if (maintenanceEnabledInput) {
+    maintenanceEnabledInput.checked = Boolean(store.maintenanceEnabled);
+  }
+
+  if (maintenanceMessageInput) {
+    maintenanceMessageInput.value = store.maintenanceMessage;
+  }
+
   if (stripeHelpUrlInput) {
     stripeHelpUrlInput.value = store.stripeHelpUrl;
   }
@@ -166,6 +176,8 @@ const collectStoreFromEditor = () => {
 
   return {
     shopNotice: shopNoticeInput?.value.trim() || "",
+    maintenanceEnabled: Boolean(maintenanceEnabledInput?.checked),
+    maintenanceMessage: maintenanceMessageInput?.value.trim() || "",
     stripeHelpUrl: stripeHelpUrlInput?.value.trim() || "",
     privileges
   };

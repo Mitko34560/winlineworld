@@ -2,60 +2,103 @@
   const STORAGE_KEY = "winlineworld_store_v1";
   let memoryStore = null;
 
+  const LEGACY_SHOP_NOTICE = "Оплата проходит через Stripe. Для каждой привилегии можно указать свою ссылку Stripe Checkout или Payment Link.";
+  const LEGACY_PRIVILEGE_NAMES = ["VIP", "PREMIUM", "ELITE", "LEGEND", "ADMIN"];
+
   const DEFAULT_STORE = {
-    version: 1,
-    shopNotice: "Оплата проходит через Stripe. Для каждой привилегии можно указать свою ссылку Stripe Checkout или Payment Link.",
+    version: 2,
+    shopNotice: "В этом разделе собраны игровые префиксы сервера. Для каждого можно указать свою Stripe-ссылку в редакторе.",
     stripeHelpUrl: "https://dashboard.stripe.com/payment-links",
     maintenanceEnabled: false,
-    maintenanceMessage: "Сайт находится на технической поддержке. Пожалуйста, зайдите позже.",
+    maintenanceMessage: "Сайт закрыт на технические работы. Пожалуйста, зайдите позже.",
     privileges: [
       {
-        id: "vip",
-        name: "VIP",
-        priceNumber: 99,
-        priceLabel: "99₽",
-        description: "Стартовый набор привилегий, цветной ник, быстрые команды и приятные бонусы.",
-        perks: ["/kit vip", "/hat и /feed", "Ускоренный старт"],
+        id: "nova",
+        name: "NOVA",
+        priceNumber: 39,
+        priceLabel: "39₽",
+        description: "Стартовый префикс для быстрого входа в игру и приятного старта на сервере.",
+        perks: ["/kit nova", "Цветной ник", "1 дом"],
         stripeUrl: "",
         featured: false
       },
       {
-        id: "premium",
-        name: "PREMIUM",
+        id: "orbit",
+        name: "ORBIT",
+        priceNumber: 79,
+        priceLabel: "79₽",
+        description: "Больше удобства, полезные команды и уверенный прогресс с первых минут.",
+        perks: ["Всё из NOVA", "/feed", "2 дома"],
+        stripeUrl: "",
+        featured: false
+      },
+      {
+        id: "pulse",
+        name: "PULSE",
+        priceNumber: 119,
+        priceLabel: "119₽",
+        description: "Боевой префикс для активной игры, PvP и более сильного набора возможностей.",
+        perks: ["Всё из ORBIT", "/heal", "3 дома"],
+        stripeUrl: "",
+        featured: false
+      },
+      {
+        id: "aether",
+        name: "AETHER",
+        priceNumber: 159,
+        priceLabel: "159₽",
+        description: "Усиленный комплект с полезными командами и ускоренным развитием на сервере.",
+        perks: ["Всё из PULSE", "/workbench", "4 дома"],
+        stripeUrl: "",
+        featured: false
+      },
+      {
+        id: "vortex",
+        name: "VORTEX",
         priceNumber: 199,
         priceLabel: "199₽",
-        description: "Расширенные команды для комфортной игры и уверенного преимущества на сервере.",
-        perks: ["/kit premium", "/workbench и /heal", "Больше слотов дома"],
-        stripeUrl: "",
-        featured: false
-      },
-      {
-        id: "elite",
-        name: "ELITE",
-        priceNumber: 299,
-        priceLabel: "299₽",
-        description: "Баланс мощности и удобства: усиленные возможности, эффекты и заметный статус.",
-        perks: ["/kit elite", "/fly в безопасных зонах", "Эксклюзивные эффекты"],
+        description: "Популярный префикс с сильными бонусами для уверенной игры и заметного статуса.",
+        perks: ["Всё из AETHER", "/enderchest", "5 домов"],
         stripeUrl: "",
         featured: true
       },
       {
-        id: "legend",
-        name: "LEGEND",
-        priceNumber: 499,
-        priceLabel: "499₽",
-        description: "Для тех, кто хочет максимум возможностей, быстрый прогресс и яркий статус.",
-        perks: ["/kit legend", "/near и /repair", "Расширенные варпы"],
+        id: "nebula",
+        name: "NEBULA",
+        priceNumber: 249,
+        priceLabel: "249₽",
+        description: "Расширенный уровень для тех, кто хочет больше свободы и контроля на сервере.",
+        perks: ["Всё из VORTEX", "/fly (ограниченно)", "6 домов"],
         stripeUrl: "",
         featured: false
       },
       {
-        id: "admin",
-        name: "ADMIN",
-        priceNumber: 999,
-        priceLabel: "999₽",
-        description: "Максимальная привилегия с топовым набором команд, эффектов и персональным стилем.",
-        perks: ["/kit admin", "Уникальные префиксы", "Премиальный пакет бонусов"],
+        id: "titan",
+        name: "TITAN",
+        priceNumber: 299,
+        priceLabel: "299₽",
+        description: "Мощный префикс с серьёзными командами для доминирования и удобной игры.",
+        perks: ["Всё из NEBULA", "/fly почти везде", "/nick"],
+        stripeUrl: "",
+        featured: false
+      },
+      {
+        id: "eclipse",
+        name: "ECLIPSE",
+        priceNumber: 349,
+        priceLabel: "349₽",
+        description: "Премиальный комплект с эффектами, префиксом и большим набором игровых возможностей.",
+        perks: ["Всё из TITAN", "Эффекты", "Уникальный префикс"],
+        stripeUrl: "",
+        featured: false
+      },
+      {
+        id: "cosmos",
+        name: "COSMOS",
+        priceNumber: 399,
+        priceLabel: "399₽",
+        description: "Максимальный уровень доступа для игроков, которым нужен почти полный контроль.",
+        perks: ["Всё из ECLIPSE", "Полный доступ", "Максимальные возможности"],
         stripeUrl: "",
         featured: false
       }
@@ -117,19 +160,48 @@
     };
   };
 
+  const shouldUpgradePrivileges = (privileges) => {
+    if (!Array.isArray(privileges) || !privileges.length) {
+      return false;
+    }
+
+    const names = privileges
+      .map((privilege) => safeString(privilege && privilege.name).toUpperCase())
+      .filter(Boolean);
+
+    return names.length === LEGACY_PRIVILEGE_NAMES.length
+      && LEGACY_PRIVILEGE_NAMES.every((name, index) => names[index] === name);
+  };
+
+  const migrateLegacyPrivileges = (privileges) => DEFAULT_STORE.privileges.map((privilege, index) => {
+    const current = Array.isArray(privileges) ? privileges[index] : null;
+
+    return normalizePrivilege({
+      ...privilege,
+      stripeUrl: safeString(current && current.stripeUrl, privilege.stripeUrl)
+    }, index);
+  });
+
   const normalizeStore = (store) => {
     const source = store && typeof store === "object" ? store : {};
     const privilegeSource = Array.isArray(source.privileges) && source.privileges.length
       ? source.privileges
       : DEFAULT_STORE.privileges;
 
+    const normalizedShopNotice = safeString(source.shopNotice, DEFAULT_STORE.shopNotice);
+    const shopNotice = normalizedShopNotice === LEGACY_SHOP_NOTICE
+      ? DEFAULT_STORE.shopNotice
+      : normalizedShopNotice;
+
     return {
-      version: 1,
-      shopNotice: safeString(source.shopNotice, DEFAULT_STORE.shopNotice),
+      version: DEFAULT_STORE.version,
+      shopNotice,
       stripeHelpUrl: safeString(source.stripeHelpUrl, DEFAULT_STORE.stripeHelpUrl),
       maintenanceEnabled: Boolean(source.maintenanceEnabled),
       maintenanceMessage: safeString(source.maintenanceMessage, DEFAULT_STORE.maintenanceMessage),
-      privileges: privilegeSource.map((privilege, index) => normalizePrivilege(privilege, index))
+      privileges: shouldUpgradePrivileges(privilegeSource)
+        ? migrateLegacyPrivileges(privilegeSource)
+        : privilegeSource.map((privilege, index) => normalizePrivilege(privilege, index))
     };
   };
 

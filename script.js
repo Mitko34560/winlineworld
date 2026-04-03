@@ -1,4 +1,4 @@
-const navToggle = document.querySelector(".nav-toggle");
+﻿const navToggle = document.querySelector(".nav-toggle");
 const navMenu = document.querySelector(".nav-menu");
 const navLinks = document.querySelectorAll(".nav-menu a");
 const toast = document.getElementById("toast");
@@ -19,7 +19,7 @@ const adminLogoutButtons = document.querySelectorAll("[data-admin-logout]");
 const adminClosePanelButtons = document.querySelectorAll("[data-admin-close-panel]");
 const ADMIN_SESSION_KEY = "winlineworld_admin_session";
 const ADMIN_PASSWORD_HASH = "84e3e4d71a7e3696a29ba8052d1ad310700b31e51d09a06b1a3bd5eaa420456a";
-const MAINTENANCE_LABEL = "Сайт закрыт на технические работы";
+const MAINTENANCE_LABEL = "РЎР°Р№С‚ Р·Р°РєСЂС‹С‚ РЅР° С‚РµС…РЅРёС‡РµСЃРєРёРµ СЂР°Р±РѕС‚С‹";
 
 let adminTriggerCount = 0;
 let adminTriggerTimer = 0;
@@ -97,7 +97,7 @@ const logoutAdmin = () => {
   sessionStorage.removeItem(ADMIN_SESSION_KEY);
   closeAdminPanel();
   closeAdminAuth();
-  showToast("Выход из админ-панели выполнен");
+  showToast("Р’С‹С…РѕРґ РёР· Р°РґРјРёРЅ-РїР°РЅРµР»Рё РІС‹РїРѕР»РЅРµРЅ");
 };
 
 const isAdminSessionActive = () => sessionStorage.getItem(ADMIN_SESSION_KEY) === "1";
@@ -122,7 +122,7 @@ const requestAdminAccess = () => {
 const copyText = async (text) => {
   try {
     await navigator.clipboard.writeText(text);
-    showToast("IP сервера скопирован");
+    showToast("IP СЃРµСЂРІРµСЂР° СЃРєРѕРїРёСЂРѕРІР°РЅ");
     return true;
   } catch (error) {
     const fallbackInput = document.createElement("input");
@@ -132,10 +132,10 @@ const copyText = async (text) => {
 
     try {
       document.execCommand("copy");
-      showToast("IP сервера скопирован");
+      showToast("IP СЃРµСЂРІРµСЂР° СЃРєРѕРїРёСЂРѕРІР°РЅ");
       return true;
     } catch (fallbackError) {
-      showToast("Скопируйте вручную: " + text);
+      showToast("РЎРєРѕРїРёСЂСѓР№С‚Рµ РІСЂСѓС‡РЅСѓСЋ: " + text);
       return false;
     } finally {
       fallbackInput.remove();
@@ -167,34 +167,67 @@ const renderDonateCards = (store) => {
   }
 
   const { escapeHtml, formatPrice } = window.WinlineStore;
-  const cards = store.privileges.map((privilege) => {
+  const themes = [
+    { className: "theme-nova", symbol: "N" },
+    { className: "theme-orbit", symbol: "O" },
+    { className: "theme-pulse", symbol: "P" },
+    { className: "theme-aether", symbol: "A" },
+    { className: "theme-vortex", symbol: "V" },
+    { className: "theme-nebula", symbol: "N" },
+    { className: "theme-titan", symbol: "T" },
+    { className: "theme-eclipse", symbol: "E" },
+    { className: "theme-cosmos", symbol: "C" }
+  ];
+
+  const cards = store.privileges.map((privilege, index) => {
+    const theme = themes[index % themes.length];
     const perks = privilege.perks.length
       ? privilege.perks.map((perk) => `<li>${escapeHtml(perk)}</li>`).join("")
       : "<li>Список бонусов скоро появится</li>";
     const buyUrl = privilege.stripeUrl.trim();
     const hasStripe = /^https?:\/\//i.test(buyUrl);
     const maintenanceMode = Boolean(store.maintenanceEnabled);
-    const cardClasses = `donate-card reveal${privilege.featured ? " featured-card" : ""}${maintenanceMode ? " is-maintenance" : ""}`;
-    const canBuy = hasStripe && !maintenanceMode;
-    const buttonClasses = `btn btn-card${canBuy ? "" : " is-disabled"}`;
-    const buttonAttrs = canBuy
+    const cardClasses = `donate-card reveal ${theme.className}${privilege.featured ? " featured-card" : ""}${maintenanceMode ? " is-maintenance" : ""}`;
+    const canOpen = hasStripe && !maintenanceMode;
+    const buttonClasses = `donate-card-action${canOpen ? "" : " is-disabled"}`;
+    const buttonAttrs = canOpen
       ? `href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener noreferrer"`
       : `href="admins.html"`;
     const note = maintenanceMode
       ? MAINTENANCE_LABEL
       : hasStripe
-      ? "Оплата через защищенную страницу Stripe."
+      ? "Переход на защищенную страницу Stripe."
       : "Stripe-ссылка пока не настроена в админ-панели.";
+    const title = escapeHtml(privilege.name);
+    const price = escapeHtml(formatPrice(privilege));
+    const description = escapeHtml(privilege.description);
 
     return `
       <article class="${cardClasses}">
         <div class="card-glow"></div>
-        <span class="tier-label">${escapeHtml(privilege.name)}</span>
-        <h3>${escapeHtml(formatPrice(privilege))}</h3>
-        <p>${escapeHtml(privilege.description)}</p>
-        <ul>${perks}</ul>
-        <a class="${buttonClasses}" ${buttonAttrs}>${canBuy ? "Купить" : maintenanceMode ? "Закрыто на техработы" : "Настроить Stripe"}</a>
-        <span class="buy-note">${escapeHtml(note)}</span>
+        <div class="donate-card-media">
+          <span class="donate-price">${price}</span>
+          <span class="donate-ribbon">-30%</span>
+          <div class="donate-art">
+            <div class="donate-art-core">
+              <img class="donate-art-logo" src="logo.avif" alt="" aria-hidden="true">
+              <span class="donate-art-letter">${escapeHtml(theme.symbol)}</span>
+            </div>
+          </div>
+        </div>
+        <div class="donate-card-body">
+          <div class="donate-card-head">
+            <div class="donate-card-copy">
+              <h3 class="donate-title">${title}</h3>
+              <p class="donate-description">${description}</p>
+            </div>
+            <a class="${buttonClasses}" ${buttonAttrs} aria-label="${canOpen ? `Открыть ${title}` : `Недоступно: ${title}`}">
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <ul class="donate-perks">${perks}</ul>
+          <span class="buy-note">${escapeHtml(note)}</span>
+        </div>
       </article>
     `;
   }).join("");
@@ -210,8 +243,8 @@ const renderAdminSummary = (store) => {
 
   const { escapeHtml, formatPrice } = window.WinlineStore;
   adminPrivilegeSummary.innerHTML = store.privileges.map((privilege) => {
-    const stripeState = privilege.stripeUrl ? "Stripe подключен" : "Stripe не настроен";
-    return `<li>${escapeHtml(privilege.name)} — ${escapeHtml(formatPrice(privilege))} • ${escapeHtml(stripeState)}</li>`;
+    const stripeState = privilege.stripeUrl ? "Stripe РїРѕРґРєР»СЋС‡РµРЅ" : "Stripe РЅРµ РЅР°СЃС‚СЂРѕРµРЅ";
+    return `<li>${escapeHtml(privilege.name)} вЂ” ${escapeHtml(formatPrice(privilege))} вЂў ${escapeHtml(stripeState)}</li>`;
   }).join("");
 };
 
@@ -320,14 +353,14 @@ adminLoginForm?.addEventListener("submit", async (event) => {
     hashedPassword = await sha256(password);
   } catch (error) {
     if (adminError) {
-      adminError.textContent = "Браузер не поддерживает безопасную проверку пароля";
+      adminError.textContent = "Р‘СЂР°СѓР·РµСЂ РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚ Р±РµР·РѕРїР°СЃРЅСѓСЋ РїСЂРѕРІРµСЂРєСѓ РїР°СЂРѕР»СЏ";
     }
     return;
   }
 
   if (hashedPassword !== ADMIN_PASSWORD_HASH) {
     if (adminError) {
-      adminError.textContent = "Неверный пароль";
+      adminError.textContent = "РќРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ";
     }
     adminPasswordInput?.select();
     return;
@@ -336,7 +369,7 @@ adminLoginForm?.addEventListener("submit", async (event) => {
   sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
   closeAdminAuth();
   openAdminPanel();
-  showToast("Админ-панель открыта");
+  showToast("РђРґРјРёРЅ-РїР°РЅРµР»СЊ РѕС‚РєСЂС‹С‚Р°");
 });
 
 if ("IntersectionObserver" in window) {
@@ -362,3 +395,4 @@ if (window.WinlineStore) {
     renderStore(event.detail);
   });
 }
+

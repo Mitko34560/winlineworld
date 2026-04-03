@@ -74,7 +74,7 @@ const saveMaintenanceState = () => {
 
   const store = window.WinlineStore.getStore();
   store.maintenanceEnabled = Boolean(maintenanceEnabledInput?.checked);
-  store.maintenanceMessage = maintenanceMessageInput?.value.trim() || "Сайт находится на технической поддержке. Пожалуйста, зайдите позже.";
+  store.maintenanceMessage = maintenanceMessageInput?.value.trim() || "Сайт закрыт на технические работы. Пожалуйста, зайдите позже.";
   const savedStore = window.WinlineStore.saveStore(store);
   renderPanel(savedStore);
 };

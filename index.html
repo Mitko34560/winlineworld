@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WinlineWorld | Minecraft Сервер</title>
-  <meta name="description" content="WinlineWorld — современный Minecraft сервер с красивыми привилегиями, дружелюбным комьюнити и быстрым донат-магазином.">
+  <meta name="description" content="WinlineWorld — современный Minecraft сервер с атмосферным дизайном, дружелюбным комьюнити и игровыми наборами.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oxanium:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -20,7 +20,9 @@
   <header class="navbar" data-site-shell>
     <div class="container nav-inner">
       <a class="brand" href="#top">
-        <span class="brand-logo">W</span>
+        <span class="brand-logo">
+          <img class="brand-logo-image" src="logo.avif" alt="WinlineWorld logo">
+        </span>
         <span class="brand-text">WinlineWorld</span>
       </a>
 
@@ -33,9 +35,7 @@
       <nav class="nav-menu">
         <a href="#server-info">Информация</a>
         <a href="#donate">Привилегии</a>
-        <a href="#features">Почему мы</a>
-        <a href="#footer">Контакты</a>
-        <a class="nav-cta" href="#donate">Донат</a>
+        <a class="nav-cta" href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Discord</a>
       </nav>
     </div>
   </header>
@@ -59,13 +59,17 @@
     <section class="hero section">
       <div class="container hero-layout">
         <div class="hero-copy reveal">
-          <div class="hero-badge">Minecraft сервер нового уровня</div>
+          <div class="server-status" aria-label="Статус онлайна сервера">
+            <span class="server-status-dot"></span>
+            <span class="server-status-text">0 / 100 ONLINE</span>
+          </div>
+          <div class="hero-badge">Гриферский сервер</div>
           <h1>WinlineWorld</h1>
-          <p>Лучший Minecraft сервер с привилегиями</p>
+          <p>Атмосферный гриферский сервер с PvP, выживанием, кланами и крутыми возможностями для каждого игрока</p>
 
           <div class="hero-actions">
             <a class="btn btn-primary" href="#server-info" data-copy="winlineworld.veroid.fun">Играть</a>
-            <a class="btn btn-secondary" href="#donate">Купить привилегию</a>
+            <a class="btn btn-secondary" href="#donate">Смотреть наборы</a>
           </div>
 
           <div class="hero-stats">
@@ -82,12 +86,23 @@
 
         <div class="hero-visual reveal">
           <div class="scene-card">
-            <div class="scene-cube cube-main"></div>
-            <div class="scene-cube cube-small cube-one"></div>
-            <div class="scene-cube cube-small cube-two"></div>
-            <div class="scene-panel">
-              <span>ONLINE WORLD</span>
-              <strong>Играй. Развивайся. Доминируй.</strong>
+            <div class="scene-aura"></div>
+            <div class="scene-runes">GRIEF • PVP • CLANS • SURVIVAL</div>
+            <div class="scene-emblem">
+              <div class="scene-emblem-ring"></div>
+              <img class="scene-logo" src="logo.avif" alt="WinlineWorld emblem">
+            </div>
+            <div class="scene-badge scene-badge-left">
+              <span class="scene-badge-title">PvP</span>
+              <strong>Жесткие битвы</strong>
+            </div>
+            <div class="scene-badge scene-badge-right">
+              <span class="scene-badge-title">Кланы</span>
+              <strong>Командная игра</strong>
+            </div>
+            <div class="scene-badge scene-badge-bottom">
+              <span class="scene-badge-title">Рейды</span>
+              <strong>Лут и доминация</strong>
             </div>
           </div>
         </div>
@@ -123,21 +138,26 @@
             <span class="info-link">Открыть форум</span>
           </a>
 
-          <a class="info-card reveal" href="#donate">
-            <span class="info-icon">WD</span>
-            <h3>Stripe Магазин</h3>
-            <p>Выбор привилегии и переход на защищенную оплату через Stripe Checkout или Payment Link.</p>
-            <span class="info-link">Открыть привилегии</span>
-          </a>
         </div>
       </div>
     </section>
 
     <section class="section donate-section" id="donate">
       <div class="container">
-        <div class="section-heading reveal">
-          <span class="section-kicker">Донат / Привилегии</span>
-          <h2>Выбери свой уровень силы</h2>
+        <div class="shop-head reveal">
+          <div class="shop-title-block">
+            <div class="shop-title-icon" aria-hidden="true">▣</div>
+            <div class="shop-title-copy">
+              <span class="shop-kicker">Магазин привилегий</span>
+              <h2>Прокачай свой игровой опыт на WinlineWorld</h2>
+            </div>
+          </div>
+
+          <div class="shop-benefits">
+            <div class="shop-benefit">Безопасная оплата</div>
+            <div class="shop-benefit">Моментальная выдача</div>
+            <div class="shop-benefit">Поддержка 24/7</div>
+          </div>
         </div>
 
         <p class="section-note reveal" id="shopNotice"></p>
@@ -185,7 +205,9 @@
     <div class="container footer-inner">
       <div>
         <a class="brand footer-brand" href="#top">
-          <span class="brand-logo">W</span>
+          <span class="brand-logo">
+            <img class="brand-logo-image" src="logo.avif" alt="WinlineWorld logo">
+          </span>
           <span class="brand-text">WinlineWorld</span>
         </a>
         <p>WinlineWorld © 2026</p>

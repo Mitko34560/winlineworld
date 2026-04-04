@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WinlineWorld Admin Panel</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="store.js" defer></script>
+  <script src="admins-page.js" defer></script>
+</head>
+<body>
+  <main class="admin-page">
+    <section class="auth-shell">
+      <section class="auth-card" id="loginPanel">
+        <span class="chip">Admin Access</span>
+        <h1>WinlineWorld Admin Panel</h1>
+        <p>Классическая админ-панель с быстрым доступом к серверным ссылкам, обзору магазина и переходу в редактор привилегий.</p>
+
+        <form id="loginForm">
+          <div class="field">
+            <label class="label" for="password">Пароль</label>
+            <input class="input" id="password" type="password" autocomplete="current-password" placeholder="Введите пароль" required>
+          </div>
+          <button class="button" type="submit">Войти</button>
+          <div class="error-text" id="errorText"></div>
+        </form>
+      </section>
+    </section>
+
+    <section class="dashboard" id="dashboard">
+      <header class="dashboard-head">
+        <div class="dashboard-copy">
+          <span class="chip">Hidden Control</span>
+          <h2>Панель управления WinlineWorld</h2>
+          <p>Быстрый доступ к основным данным сервера, контактам, магазину и редактору привилегий.</p>
+        </div>
+
+        <div class="toolbar">
+          <a class="ghost-button" href="index.html">Открыть сайт</a>
+          <a class="ghost-button" href="editor.html">Редактор привилегий</a>
+          <a class="ghost-button" href="#newsBlock">Новости</a>
+          <button class="ghost-button" type="button" id="copyIpButton">Скопировать IP</button>
+          <button class="ghost-button" type="button" id="logoutButton">Выйти</button>
+        </div>
+      </header>
+
+      <section class="dashboard-grid">
+        <article class="dashboard-card">
+          <span class="chip">Статус</span>
+          <h3>Основные данные</h3>
+          <ul class="summary-list">
+            <li>Сервер: WinlineWorld</li>
+            <li>IP: winlineworld.veroid.fun</li>
+            <li>Discord: подключён</li>
+            <li>Форум: активен</li>
+          </ul>
+        </article>
+
+        <article class="info-card-admin">
+          <span class="chip">Ссылки</span>
+          <h3>Быстрые действия</h3>
+          <div class="toolbar">
+            <a class="ghost-button" href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Discord</a>
+            <a class="ghost-button" href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">Форум</a>
+            <a class="ghost-button" href="#shopBlock">Магазин</a>
+          </div>
+          <div class="note-box">
+            <p id="shopNote"></p>
+          </div>
+        </article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="dashboard-card">
+          <span class="chip">Maintenance</span>
+          <h3>Техническая поддержка</h3>
+          <label class="check-row">
+            <input id="maintenanceEnabledInput" type="checkbox">
+            <span>Включить техническую поддержку</span>
+          </label>
+          <div class="field">
+            <label class="label" for="maintenanceMessageInput">Текст сообщения</label>
+            <textarea class="textarea" id="maintenanceMessageInput" placeholder="Сайт закрыт на технические работы. Пожалуйста, зайдите позже."></textarea>
+          </div>
+          <div class="toolbar">
+            <button class="button" type="button" id="saveMaintenanceButton">Сохранить</button>
+          </div>
+          <div class="note-box">
+            <p id="maintenanceStatusText"></p>
+          </div>
+        </article>
+      </section>
+
+      <section class="editor-section" id="shopBlock">
+        <div class="section-head">
+          <div>
+            <span class="chip">Shop Overview</span>
+            <h3>Текущие привилегии</h3>
+            <p>Редактирование вынесено на отдельную страницу, но текущий список и состояние Stripe видны здесь.</p>
+          </div>
+        </div>
+
+        <article class="dashboard-card">
+          <ul class="summary-list" id="summaryList"></ul>
+        </article>
+      </section>
+
+      <section class="editor-section" id="newsBlock">
+        <div class="section-head">
+          <div>
+            <span class="chip">News Editor</span>
+            <h3>Новости сайта</h3>
+            <p>Пиши новости прямо из админ-панели. После сохранения они сразу появятся на главной странице.</p>
+          </div>
+
+          <div class="toolbar">
+            <button class="ghost-button" type="button" id="addNewsButton">Добавить новость</button>
+            <button class="button" type="button" id="saveNewsButton">Сохранить новости</button>
+          </div>
+        </div>
+
+        <div class="editor-grid" id="newsEditors"></div>
+        <div class="helper-text" id="newsHelperText"></div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

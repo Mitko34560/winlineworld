@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WinlineWorld Privilege Editor</title>
+  <link rel="stylesheet" href="../admin.css">
+  <script src="../store.js" defer></script>
+  <script src="../admin.js" defer></script>
+</head>
+<body>
+  <main class="admin-page">
+    <section class="auth-shell">
+      <section class="auth-card" id="loginPanel">
+        <span class="chip">Editor Access</span>
+        <h1>WinlineWorld Privilege Editor</h1>
+        <p>Здесь можно менять привилегии, цены, описания и Stripe-ссылки для покупки. После сохранения главная страница берет обновленные данные из общего store.</p>
+
+        <form id="loginForm">
+          <div class="field">
+            <label class="label" for="password">Пароль</label>
+            <input class="input" id="password" type="password" autocomplete="current-password" placeholder="Введите пароль" required>
+          </div>
+          <button class="button" type="submit">Войти</button>
+          <div class="error-text" id="errorText"></div>
+        </form>
+      </section>
+    </section>
+
+    <section class="dashboard" id="dashboard">
+      <header class="dashboard-head">
+        <div class="dashboard-copy">
+          <span class="chip">Store Control</span>
+          <h2>Редактор привилегий и Stripe</h2>
+          <p>Для каждой привилегии можно указать свою Stripe Payment Link или Stripe Checkout ссылку. Кнопка покупки на главной странице будет открывать именно ее.</p>
+        </div>
+
+        <div class="toolbar">
+          <a class="ghost-button" id="homeLink" href="../index.html">Открыть сайт</a>
+          <button class="ghost-button" type="button" id="addPrivilegeButton">Добавить привилегию</button>
+          <button class="button" type="button" id="saveStoreButton">Сохранить</button>
+          <button class="ghost-button danger" type="button" id="resetStoreButton">Сбросить</button>
+          <button class="ghost-button" type="button" id="logoutButton">Выйти</button>
+        </div>
+      </header>
+
+      <section class="dashboard-grid">
+        <article class="dashboard-card">
+          <span class="chip">Общие настройки</span>
+          <h3>Витрина магазина</h3>
+
+          <label class="check-row">
+            <input id="maintenanceEnabledInput" type="checkbox">
+            <span>Включить режим технической поддержки</span>
+          </label>
+
+          <div class="field">
+            <label class="label" for="maintenanceMessageInput">Текст о технической поддержке</label>
+            <textarea class="textarea" id="maintenanceMessageInput" placeholder="Например: сайт закрыт на технические работы. Пожалуйста, зайдите позже."></textarea>
+          </div>
+
+          <div class="field">
+            <label class="label" for="shopNoticeInput">Текст под секцией доната</label>
+            <textarea class="textarea" id="shopNoticeInput" placeholder="Например: оплата проходит через Stripe..."></textarea>
+          </div>
+
+          <div class="field">
+            <label class="label" for="stripeHelpUrlInput">Ссылка на Stripe Dashboard</label>
+            <input class="input" id="stripeHelpUrlInput" type="url" placeholder="https://dashboard.stripe.com/payment-links">
+          </div>
+
+          <div class="note-box">
+            <p>Быстрая ссылка на Stripe:</p>
+            <a class="ghost-button" id="stripeHelpLink" href="https://dashboard.stripe.com/payment-links" target="_blank" rel="noopener noreferrer">Открыть Stripe Dashboard</a>
+          </div>
+        </article>
+
+        <article class="info-card-admin">
+          <span class="chip">Сводка</span>
+          <h3>Текущие привилегии</h3>
+          <ul class="summary-list" id="summaryList"></ul>
+          <div class="toast-text" id="toastText"></div>
+        </article>
+      </section>
+
+      <section class="editor-section">
+        <div class="section-head">
+          <div>
+            <span class="chip">Privileges</span>
+            <h3>Редактирование карточек</h3>
+            <p>Вставляйте в поле Stripe ссылку вида <code>https://buy.stripe.com/...</code> для каждой привилегии отдельно.</p>
+          </div>
+        </div>
+
+        <div class="editor-grid" id="privilegeEditors"></div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

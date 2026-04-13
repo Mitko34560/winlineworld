@@ -5,6 +5,8 @@ const toast = document.getElementById("toast");
 const brandLogos = document.querySelectorAll(".brand-logo");
 const donateGrid = document.getElementById("donateGrid");
 const newsGrid = document.querySelector(".news-layout");
+const galleryGrid = document.getElementById("galleryGrid");
+const galleryCount = document.getElementById("galleryCount");
 const shopNotice = document.getElementById("shopNotice");
 const maintenanceScreen = document.getElementById("maintenanceScreen");
 const maintenanceScreenText = document.getElementById("maintenanceScreenText");
@@ -19,7 +21,7 @@ const adminCloseButtons = document.querySelectorAll("[data-admin-close]");
 const adminLogoutButtons = document.querySelectorAll("[data-admin-logout]");
 const adminClosePanelButtons = document.querySelectorAll("[data-admin-close-panel]");
 const ADMIN_SESSION_KEY = "winlineworld_admin_session";
-const ADMIN_PASSWORD_HASH = "84e3e4d71a7e3696a29ba8052d1ad310700b31e51d09a06b1a3bd5eaa420456a";
+const ADMIN_PASSWORD_HASH = "d3171829b03043f80e6b1ebcced54c866f86f1a78b173da1f718a18810d5549b";
 const MAINTENANCE_LABEL = "РЎР°Р№С‚ Р·Р°РєСЂС‹С‚ РЅР° С‚РµС…РЅРёС‡РµСЃРєРёРµ СЂР°Р±РѕС‚С‹";
 
 let adminTriggerCount = 0;
@@ -287,6 +289,82 @@ const renderNewsCards = (store) => {
   observeRevealItems(newsGrid);
 };
 
+const formatGalleryCount = (count) => {
+  const absoluteCount = Math.abs(Number(count) || 0);
+  const mod100 = absoluteCount % 100;
+  const mod10 = absoluteCount % 10;
+
+  if (mod100 >= 11 && mod100 <= 14) {
+    return `${absoluteCount} кадров`;
+  }
+
+  if (mod10 === 1) {
+    return `${absoluteCount} кадр`;
+  }
+
+  if (mod10 >= 2 && mod10 <= 4) {
+    return `${absoluteCount} кадра`;
+  }
+
+  return `${absoluteCount} кадров`;
+};
+
+const renderGalleryCards = (store) => {
+  if (!galleryGrid || !window.WinlineStore) {
+    return;
+  }
+
+  const { escapeHtml } = window.WinlineStore;
+  const items = Array.isArray(store.gallery) ? store.gallery : [];
+
+  if (galleryCount) {
+    galleryCount.textContent = formatGalleryCount(items.length);
+  }
+
+  galleryGrid.innerHTML = items.length ? items.map((item) => {
+    const hasImage = Boolean(item.imageUrl && item.imageUrl.trim());
+    const href = item.linkUrl && item.linkUrl.trim();
+    const external = href && /^https?:\/\//i.test(href);
+    const cardClass = `gallery-card reveal${item.featured ? " gallery-card-featured" : ""}`;
+    const media = hasImage
+      ? `<img class="gallery-image" src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.alt || item.title)}" loading="lazy">`
+      : `
+        <div class="gallery-placeholder" aria-hidden="true">
+          <img src="logo.avif" alt="">
+          <span>${escapeHtml(item.label || "WinlineWorld")}</span>
+        </div>
+      `;
+    const link = href
+      ? `<a class="gallery-card-link" href="${escapeHtml(href)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ""}>Открыть</a>`
+      : "";
+
+    return `
+      <article class="${cardClass}">
+        <div class="gallery-media">
+          ${media}
+        </div>
+        <div class="gallery-copy">
+          <span class="gallery-chip">${escapeHtml(item.label)}</span>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.text)}</p>
+          ${link}
+        </div>
+      </article>
+    `;
+  }).join("") : `
+    <article class="gallery-card gallery-empty reveal">
+      <div class="gallery-copy">
+        <span class="gallery-chip">Галерея</span>
+        <h3>Раздел пока пуст</h3>
+        <p>Добавьте первый кадр через админ-панель, и он сразу появится на этой странице.</p>
+        <a class="gallery-card-link" href="admins.html">Открыть админ-панель</a>
+      </div>
+    </article>
+  `;
+
+  observeRevealItems(galleryGrid);
+};
+
 const renderStore = (store) => {
   if (!store) {
     return;
@@ -314,6 +392,7 @@ const renderStore = (store) => {
 
   renderDonateCards(store);
   renderNewsCards(store);
+  renderGalleryCards(store);
   renderAdminSummary(store);
 };
 

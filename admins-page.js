@@ -15,8 +15,12 @@ const newsEditors = document.getElementById("newsEditors");
 const addNewsButton = document.getElementById("addNewsButton");
 const saveNewsButton = document.getElementById("saveNewsButton");
 const newsHelperText = document.getElementById("newsHelperText");
+const galleryEditors = document.getElementById("galleryEditors");
+const addGalleryButton = document.getElementById("addGalleryButton");
+const saveGalleryButton = document.getElementById("saveGalleryButton");
+const galleryHelperText = document.getElementById("galleryHelperText");
 const ADMIN_PAGE_SESSION_KEY = "winlineworld_admin_panel_session";
-const ADMIN_PASSWORD_HASH = "84e3e4d71a7e3696a29ba8052d1ad310700b31e51d09a06b1a3bd5eaa420456a";
+const ADMIN_PASSWORD_HASH = "d3171829b03043f80e6b1ebcced54c866f86f1a78b173da1f718a18810d5549b";
 
 const setAuthenticated = (authenticated) => {
   if (!loginPanel || !dashboard) {
@@ -48,6 +52,23 @@ const createNews = (index = 0) => {
     text: template.text || "Краткое описание новости.",
     linkLabel: template.linkLabel || "Подробнее",
     linkUrl: template.linkUrl || "#news",
+    featured: Boolean(template.featured && index === 0)
+  };
+};
+
+const createGalleryItem = (index = 0) => {
+  const defaults = window.WinlineStore?.DEFAULT_STORE?.gallery || [];
+  const template = defaults[index] || defaults[defaults.length - 1] || {};
+  const uniqueId = `gallery-${Date.now()}-${index + 1}`;
+
+  return {
+    id: uniqueId,
+    label: template.label || "Галерея",
+    title: template.title || "Новый кадр",
+    text: template.text || "Короткое описание кадра.",
+    imageUrl: template.imageUrl || "",
+    alt: template.alt || template.title || "Скриншот сервера",
+    linkUrl: template.linkUrl || "",
     featured: Boolean(template.featured && index === 0)
   };
 };
@@ -114,6 +135,68 @@ const renderNewsEditors = (store) => {
   }
 };
 
+const renderGalleryEditors = (store) => {
+  if (!galleryEditors || !window.WinlineStore) {
+    return;
+  }
+
+  const { escapeHtml } = window.WinlineStore;
+  const items = Array.isArray(store.gallery) ? store.gallery : [];
+
+  galleryEditors.innerHTML = items.map((item, index) => `
+    <article class="editor-card${item.featured ? " featured" : ""}" data-gallery-editor data-id="${escapeHtml(item.id)}">
+      <div class="editor-meta">
+        <div>
+          <span class="chip">Gallery ${index + 1}</span>
+          <h3 class="editor-title">${escapeHtml(item.title || `Кадр ${index + 1}`)}</h3>
+        </div>
+        <button class="small-button danger" type="button" data-remove-gallery>Удалить</button>
+      </div>
+
+      <div class="field">
+        <label class="label">Метка</label>
+        <input class="input" type="text" data-field="label" value="${escapeHtml(item.label)}" placeholder="СПАВН">
+      </div>
+
+      <div class="field">
+        <label class="label">Заголовок</label>
+        <input class="input" type="text" data-field="title" value="${escapeHtml(item.title)}" placeholder="Центральная площадь сервера">
+      </div>
+
+      <div class="field">
+        <label class="label">Описание</label>
+        <textarea class="textarea" data-field="text" placeholder="Короткое описание кадра">${escapeHtml(item.text)}</textarea>
+      </div>
+
+      <div class="field">
+        <label class="label">Ссылка на изображение</label>
+        <input class="input" type="text" data-field="imageUrl" value="${escapeHtml(item.imageUrl)}" placeholder="https://... или images/spawn.webp">
+      </div>
+
+      <div class="field">
+        <label class="label">Alt текст</label>
+        <input class="input" type="text" data-field="alt" value="${escapeHtml(item.alt)}" placeholder="Скриншот сервера">
+      </div>
+
+      <div class="field">
+        <label class="label">Кнопка / ссылка</label>
+        <input class="input" type="text" data-field="linkUrl" value="${escapeHtml(item.linkUrl)}" placeholder="https://... или #news">
+      </div>
+
+      <label class="check-row">
+        <input type="checkbox" data-field="featured" ${item.featured ? "checked" : ""}>
+        <span>Выделить карточку крупнее</span>
+      </label>
+    </article>
+  `).join("");
+
+  if (galleryHelperText) {
+    galleryHelperText.textContent = items.length
+      ? `Кадров в галерее: ${items.length}`
+      : "Галерея пока пуста. Добавь первый кадр.";
+  }
+};
+
 const renderPanel = () => {
   if (!window.WinlineStore) {
     return;
@@ -150,6 +233,7 @@ const renderPanel = () => {
   }
 
   renderNewsEditors(store);
+  renderGalleryEditors(store);
 };
 
 const collectNewsFromEditors = () => {
@@ -163,6 +247,21 @@ const collectNewsFromEditors = () => {
     text: editor.querySelector('[data-field="text"]')?.value.trim() || "Описание новости пока не заполнено.",
     linkLabel: editor.querySelector('[data-field="linkLabel"]')?.value.trim() || "Подробнее",
     linkUrl: editor.querySelector('[data-field="linkUrl"]')?.value.trim() || "#news",
+    featured: Boolean(editor.querySelector('[data-field="featured"]')?.checked)
+  }));
+};
+
+const collectGalleryFromEditors = () => {
+  const editors = Array.from(document.querySelectorAll("[data-gallery-editor]"));
+
+  return editors.map((editor, index) => ({
+    id: editor.getAttribute("data-id") || `gallery-${index + 1}`,
+    label: editor.querySelector('[data-field="label"]')?.value.trim() || "Галерея",
+    title: editor.querySelector('[data-field="title"]')?.value.trim() || `Кадр ${index + 1}`,
+    text: editor.querySelector('[data-field="text"]')?.value.trim() || "Описание кадра пока не заполнено.",
+    imageUrl: editor.querySelector('[data-field="imageUrl"]')?.value.trim() || "",
+    alt: editor.querySelector('[data-field="alt"]')?.value.trim() || `Кадр ${index + 1}`,
+    linkUrl: editor.querySelector('[data-field="linkUrl"]')?.value.trim() || "",
     featured: Boolean(editor.querySelector('[data-field="featured"]')?.checked)
   }));
 };
@@ -190,6 +289,22 @@ const saveNewsState = () => {
 
   if (newsHelperText) {
     newsHelperText.textContent = "Новости сохранены и уже отображаются на сайте.";
+  }
+
+  renderPanel();
+};
+
+const saveGalleryState = () => {
+  if (!window.WinlineStore) {
+    return;
+  }
+
+  const store = window.WinlineStore.getStore();
+  store.gallery = collectGalleryFromEditors();
+  window.WinlineStore.saveStore(store);
+
+  if (galleryHelperText) {
+    galleryHelperText.textContent = "Галерея сохранена и уже доступна на отдельной странице.";
   }
 
   renderPanel();
@@ -242,6 +357,7 @@ logoutButton?.addEventListener("click", () => {
 
 saveMaintenanceButton?.addEventListener("click", saveMaintenanceState);
 saveNewsButton?.addEventListener("click", saveNewsState);
+saveGalleryButton?.addEventListener("click", saveGalleryState);
 
 addNewsButton?.addEventListener("click", () => {
   if (!window.WinlineStore) {
@@ -258,6 +374,21 @@ addNewsButton?.addEventListener("click", () => {
   }
 });
 
+addGalleryButton?.addEventListener("click", () => {
+  if (!window.WinlineStore) {
+    return;
+  }
+
+  const store = window.WinlineStore.getStore();
+  const nextGalleryItem = createGalleryItem(Array.isArray(store.gallery) ? store.gallery.length : 0);
+  store.gallery = Array.isArray(store.gallery) ? [...store.gallery, nextGalleryItem] : [nextGalleryItem];
+  renderGalleryEditors(window.WinlineStore.normalizeStore(store));
+
+  if (galleryHelperText) {
+    galleryHelperText.textContent = "Новый кадр добавлен. Не забудь сохранить галерею.";
+  }
+});
+
 newsEditors?.addEventListener("click", (event) => {
   const removeButton = event.target.closest("[data-remove-news]");
 
@@ -270,6 +401,21 @@ newsEditors?.addEventListener("click", (event) => {
 
   if (newsHelperText) {
     newsHelperText.textContent = "Новость удалена из списка. Нажми «Сохранить новости», чтобы применить изменения.";
+  }
+});
+
+galleryEditors?.addEventListener("click", (event) => {
+  const removeButton = event.target.closest("[data-remove-gallery]");
+
+  if (!removeButton) {
+    return;
+  }
+
+  const editor = removeButton.closest("[data-gallery-editor]");
+  editor?.remove();
+
+  if (galleryHelperText) {
+    galleryHelperText.textContent = "Кадр удален из списка. Нажми «Сохранить галерею», чтобы применить изменения.";
   }
 });
 

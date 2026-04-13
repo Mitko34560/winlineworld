@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WinlineWorld | Галерея</title>
+  <meta name="description" content="Галерея WinlineWorld со скриншотами сервера, PvP-моментами, ивентами и кадрами сообщества.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oxanium:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="store.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="page-glow page-glow-left"></div>
+  <div class="page-glow page-glow-right"></div>
+  <div class="grid-overlay"></div>
+
+  <header class="navbar" data-site-shell>
+    <div class="container nav-inner">
+      <a class="brand" href="#gallery-top">
+        <span class="brand-logo">
+          <img class="brand-logo-image" src="logo.avif" alt="WinlineWorld logo">
+        </span>
+        <span class="brand-text">WinlineWorld</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Открыть меню" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-menu">
+        <a href="index.html#server-info">Информация</a>
+        <a href="index.html#donate">Привилегии</a>
+        <a href="index.html#news">Новости</a>
+        <a href="#galleryGrid">Галерея</a>
+        <a class="nav-cta" href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Discord</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="maintenance-banner" id="maintenanceBanner" hidden>
+    <div class="container">
+      <strong>Технические работы</strong>
+      <span id="maintenanceText"></span>
+    </div>
+  </div>
+
+  <section class="maintenance-screen" id="maintenanceScreen" hidden>
+    <div class="container maintenance-screen-inner">
+      <span class="section-kicker">Технические работы</span>
+      <h1>WinlineWorld</h1>
+      <p id="maintenanceScreenText">Сайт закрыт на технические работы. Пожалуйста, зайдите позже.</p>
+    </div>
+  </section>
+
+  <main id="gallery-top" data-site-shell>
+    <section class="section gallery-hero">
+      <div class="container gallery-hero-layout">
+        <div class="gallery-hero-copy reveal">
+          <span class="section-kicker">Скриншоты и лучшие моменты</span>
+          <h1>Галерея WinlineWorld</h1>
+          <p>Здесь собираются кадры со спавна, ивентов, PvP и жизни сообщества. Наполнение страницы управляется прямо из админ-панели.</p>
+
+          <div class="gallery-hero-actions">
+            <a class="btn btn-primary" href="index.html">На главную</a>
+            <a class="btn btn-secondary" href="admins.html">Открыть админ-панель</a>
+          </div>
+        </div>
+
+        <aside class="gallery-hero-panel reveal">
+          <span class="gallery-count-badge" id="galleryCount">0 кадров</span>
+          <h2 class="gallery-panel-title">Что можно показать</h2>
+          <p class="gallery-panel-note">Добавляйте карточки со ссылкой на изображение, коротким описанием и при желании кнопкой на Discord, форум или нужный раздел сайта.</p>
+          <ul class="gallery-panel-list">
+            <li>Спавн, варпы и красивые локации</li>
+            <li>PvP-сражения, рейды и клановые базы</li>
+            <li>Ивенты, подарки и активность игроков</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section gallery-section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="section-kicker">Галерея сервера</span>
+          <h2>Локации, бои, события и атмосфера проекта</h2>
+          <p class="section-note">Карточки ниже берутся из общего store сайта и обновляются сразу после сохранения в админ-панели.</p>
+        </div>
+
+        <div class="gallery-grid" id="galleryGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" data-site-shell>
+    <div class="container footer-inner">
+      <div>
+        <a class="brand footer-brand" href="#gallery-top">
+          <span class="brand-logo">
+            <img class="brand-logo-image" src="logo.avif" alt="WinlineWorld logo">
+          </span>
+          <span class="brand-text">WinlineWorld</span>
+        </a>
+        <p>WinlineWorld © 2026</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="#galleryGrid">Галерея</a>
+        <a href="index.html">Главная</a>
+        <a href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Discord</a>
+        <a href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">Форум</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

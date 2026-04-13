@@ -37,8 +37,10 @@
 
         <div class="toolbar">
           <a class="ghost-button" href="index.html">Открыть сайт</a>
+          <a class="ghost-button" href="gallery.html">Галерея</a>
           <a class="ghost-button" href="editor.html">Редактор привилегий</a>
           <a class="ghost-button" href="#newsBlock">Новости</a>
+          <a class="ghost-button" href="#galleryBlock">Галерея сайта</a>
           <button class="ghost-button" type="button" id="copyIpButton">Скопировать IP</button>
           <button class="ghost-button" type="button" id="logoutButton">Выйти</button>
         </div>
@@ -63,6 +65,7 @@
             <a class="ghost-button" href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Discord</a>
             <a class="ghost-button" href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">Форум</a>
             <a class="ghost-button" href="#shopBlock">Магазин</a>
+            <a class="ghost-button" href="#galleryBlock">Галерея</a>
           </div>
           <div class="note-box">
             <p id="shopNote"></p>
@@ -121,6 +124,24 @@
 
         <div class="editor-grid" id="newsEditors"></div>
         <div class="helper-text" id="newsHelperText"></div>
+      </section>
+
+      <section class="editor-section" id="galleryBlock">
+        <div class="section-head">
+          <div>
+            <span class="chip">Gallery Editor</span>
+            <h3>Галерея сайта</h3>
+            <p>Добавляй карточки для отдельной страницы галереи: заголовок, описание, ссылку на изображение и при необходимости кнопку перехода.</p>
+          </div>
+
+          <div class="toolbar">
+            <button class="ghost-button" type="button" id="addGalleryButton">Добавить кадр</button>
+            <button class="button" type="button" id="saveGalleryButton">Сохранить галерею</button>
+          </div>
+        </div>
+
+        <div class="editor-grid" id="galleryEditors"></div>
+        <div class="helper-text" id="galleryHelperText"></div>
       </section>
     </section>
   </main>

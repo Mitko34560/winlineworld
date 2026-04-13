@@ -6,7 +6,7 @@
   const LEGACY_PRIVILEGE_NAMES = ["VIP", "PREMIUM", "ELITE", "LEGEND", "ADMIN"];
 
   const DEFAULT_STORE = {
-    version: 3,
+    version: 4,
     shopNotice: "В этом разделе собраны игровые префиксы сервера. Для каждого можно указать свою Stripe-ссылку в редакторе.",
     stripeHelpUrl: "https://dashboard.stripe.com/payment-links",
     maintenanceEnabled: false,
@@ -40,6 +40,38 @@
         text: "Следи за новостями сервера, изменениями в правилах и будущими обновлениями здесь, а также на форуме проекта.",
         linkLabel: "Открыть форум",
         linkUrl: "https://f-winlineworld.hgweb.ru/index.php",
+        featured: false
+      }
+    ],
+    gallery: [
+      {
+        id: "gallery-spawn",
+        label: "СПАВН",
+        title: "Центральная площадь сервера",
+        text: "Добавьте сюда красивый кадр со спавна, чтобы игроки сразу увидели атмосферу проекта.",
+        imageUrl: "",
+        alt: "Скриншот центральной площади сервера",
+        linkUrl: "",
+        featured: true
+      },
+      {
+        id: "gallery-pvp",
+        label: "PVP",
+        title: "Сражения и клановые рейды",
+        text: "Используйте этот слот для арены, рейда или яркого боевого момента сообщества.",
+        imageUrl: "",
+        alt: "Скриншот PvP-сражения на сервере",
+        linkUrl: "",
+        featured: false
+      },
+      {
+        id: "gallery-events",
+        label: "EVENT",
+        title: "Ивенты и активность игроков",
+        text: "Покажите турниры, подарки, конкурсы или массовые события на сервере.",
+        imageUrl: "",
+        alt: "Скриншот ивента на сервере",
+        linkUrl: "",
         featured: false
       }
     ],
@@ -208,6 +240,22 @@
     };
   };
 
+  const normalizeGalleryItem = (galleryItem, index) => {
+    const source = galleryItem && typeof galleryItem === "object" ? galleryItem : {};
+    const title = safeString(source.title, `Кадр ${index + 1}`);
+
+    return {
+      id: safeString(source.id, createId(title, index)),
+      label: safeString(source.label, "Галерея"),
+      title,
+      text: safeString(source.text, "Описание кадра пока не заполнено."),
+      imageUrl: safeString(source.imageUrl),
+      alt: safeString(source.alt, title),
+      linkUrl: safeString(source.linkUrl),
+      featured: Boolean(source.featured)
+    };
+  };
+
   const shouldUpgradePrivileges = (privileges) => {
     if (!Array.isArray(privileges) || !privileges.length) {
       return false;
@@ -238,6 +286,9 @@
     const newsSource = Array.isArray(source.news)
       ? source.news
       : DEFAULT_STORE.news;
+    const gallerySource = Array.isArray(source.gallery)
+      ? source.gallery
+      : DEFAULT_STORE.gallery;
 
     const normalizedShopNotice = safeString(source.shopNotice, DEFAULT_STORE.shopNotice);
     const shopNotice = normalizedShopNotice === LEGACY_SHOP_NOTICE
@@ -251,6 +302,7 @@
       maintenanceEnabled: Boolean(source.maintenanceEnabled),
       maintenanceMessage: safeString(source.maintenanceMessage, DEFAULT_STORE.maintenanceMessage),
       news: newsSource.map((newsItem, index) => normalizeNewsItem(newsItem, index)),
+      gallery: gallerySource.map((galleryItem, index) => normalizeGalleryItem(galleryItem, index)),
       privileges: shouldUpgradePrivileges(privilegeSource)
         ? migrateLegacyPrivileges(privilegeSource)
         : privilegeSource.map((privilege, index) => normalizePrivilege(privilege, index))

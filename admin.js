@@ -17,7 +17,7 @@ const maintenanceMessageInput = document.getElementById("maintenanceMessageInput
 const stripeHelpLink = document.getElementById("stripeHelpLink");
 const homeLink = document.getElementById("homeLink");
 const ADMIN_FILE_SESSION_KEY = "winlineworld_admin_file_session";
-const ADMIN_PASSWORD_HASH = "84e3e4d71a7e3696a29ba8052d1ad310700b31e51d09a06b1a3bd5eaa420456a";
+const ADMIN_PASSWORD_HASH = "dad1f499fdaa2eac8fd9a08cc1acc5da77eec5fa769f2c35aa3b53978a6f245a";
 
 const showToast = (message) => {
   if (toastText) {

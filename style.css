@@ -106,6 +106,8 @@ img {
 .maintenance-banner,
 .maintenance-screen,
 .hero,
+.gallery-hero,
+.gallery-section,
 .info-section,
 .donate-section,
 .news-section,
@@ -1732,6 +1734,253 @@ img {
   margin-top: 18px;
 }
 
+.gallery-hero {
+  padding-top: 76px;
+  padding-bottom: 42px;
+}
+
+.gallery-hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.gallery-hero-copy,
+.gallery-hero-panel,
+.gallery-card {
+  border: 1px solid rgba(255, 194, 92, 0.18);
+  background: linear-gradient(180deg, rgba(44, 24, 11, 0.92), rgba(15, 9, 4, 0.96));
+  box-shadow: var(--shadow);
+}
+
+.gallery-hero-copy,
+.gallery-hero-panel {
+  padding: 32px;
+  border-radius: 30px;
+}
+
+.gallery-hero-copy h1 {
+  margin: 16px 0 0;
+  font-family: "Oxanium", sans-serif;
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+}
+
+.gallery-hero-copy p,
+.gallery-panel-note {
+  color: #f3ddbd;
+}
+
+.gallery-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.gallery-hero-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-hero-panel::before,
+.gallery-hero-panel::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.gallery-hero-panel::before {
+  width: 220px;
+  height: 220px;
+  top: -72px;
+  right: -54px;
+  background: radial-gradient(circle, rgba(255, 183, 3, 0.3), transparent 68%);
+}
+
+.gallery-hero-panel::after {
+  width: 180px;
+  height: 180px;
+  left: -44px;
+  bottom: -78px;
+  background: radial-gradient(circle, rgba(255, 122, 24, 0.24), transparent 70%);
+}
+
+.gallery-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 194, 92, 0.24);
+  background: rgba(255, 183, 3, 0.12);
+  color: #fff0c8;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gallery-panel-title {
+  margin: 18px 0 8px;
+  font-family: "Oxanium", sans-serif;
+  font-size: 1.8rem;
+}
+
+.gallery-panel-list {
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gallery-panel-list li {
+  position: relative;
+  padding-left: 18px;
+  color: #fff2db;
+}
+
+.gallery-panel-list li + li {
+  margin-top: 12px;
+}
+
+.gallery-panel-list li::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-soft), var(--secondary-soft));
+  box-shadow: 0 0 12px rgba(255, 183, 3, 0.4);
+}
+
+.gallery-section {
+  padding-top: 24px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.gallery-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  overflow: hidden;
+  border-radius: 30px;
+}
+
+.gallery-card-featured {
+  grid-column: span 2;
+}
+
+.gallery-media {
+  position: relative;
+  min-height: 280px;
+  background: linear-gradient(135deg, rgba(255, 183, 3, 0.12), rgba(255, 122, 24, 0.12));
+}
+
+.gallery-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  object-fit: cover;
+}
+
+.gallery-placeholder {
+  display: grid;
+  place-items: center;
+  gap: 12px;
+  min-height: 280px;
+  padding: 30px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255, 183, 3, 0.3), transparent 34%),
+    linear-gradient(180deg, rgba(64, 35, 15, 0.94), rgba(18, 10, 5, 0.98));
+}
+
+.gallery-placeholder img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 26px rgba(255, 183, 3, 0.22));
+}
+
+.gallery-placeholder span {
+  color: #fff0c8;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.gallery-copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+}
+
+.gallery-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 194, 92, 0.18);
+  background: rgba(255, 183, 3, 0.1);
+  color: #fff0c8;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.gallery-copy h3 {
+  margin: 18px 0 0;
+  font-family: "Oxanium", sans-serif;
+  font-size: 1.42rem;
+  line-height: 1.15;
+}
+
+.gallery-copy p {
+  margin: 14px 0 0;
+  color: #e5cfaf;
+}
+
+.gallery-card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-top: auto;
+  padding: 12px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 194, 92, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  transition: transform var(--transition), background var(--transition), border-color var(--transition);
+}
+
+.gallery-card-link:hover,
+.gallery-card-link:focus-visible {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 194, 92, 0.32);
+}
+
+.gallery-empty {
+  grid-column: 1 / -1;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -1839,6 +2088,10 @@ img {
   .features-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 960px) {
@@ -1879,6 +2132,10 @@ img {
     grid-template-columns: 1fr;
   }
 
+  .gallery-hero-layout {
+    grid-template-columns: 1fr;
+  }
+
   .hero-copy {
     order: 1;
   }
@@ -1905,6 +2162,10 @@ img {
 
   .donate-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gallery-card-featured {
+    grid-column: span 1;
   }
 
   .donate-card-head {
@@ -1961,6 +2222,10 @@ img {
     padding-top: 52px;
   }
 
+  .gallery-hero {
+    padding-top: 52px;
+  }
+
   .shop-title-block {
     flex-direction: column;
     align-items: flex-start;
@@ -2012,12 +2277,25 @@ img {
 
   .info-grid,
   .features-grid,
-  .donate-grid {
+  .donate-grid,
+  .gallery-grid {
     grid-template-columns: 1fr;
   }
 
   .donate-card-media {
     min-height: 236px;
+  }
+
+  .gallery-hero-copy,
+  .gallery-hero-panel,
+  .gallery-copy {
+    padding: 22px;
+  }
+
+  .gallery-media,
+  .gallery-image,
+  .gallery-placeholder {
+    min-height: 220px;
   }
 
   .donate-card-head {

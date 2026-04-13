@@ -1,6 +1,8 @@
 (function () {
   const STORAGE_KEY = "winlineworld_store_v1";
   let memoryStore = null;
+  let lastWriteSucceeded = true;
+  let lastWriteError = null;
 
   const LEGACY_SHOP_NOTICE = "Оплата проходит через Stripe. Для каждой привилегии можно указать свою ссылку Stripe Checkout или Payment Link.";
   const LEGACY_PRIVILEGE_NAMES = ["VIP", "PREMIUM", "ELITE", "LEGEND", "ADMIN"];
@@ -322,8 +324,12 @@
 
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+      lastWriteSucceeded = true;
+      lastWriteError = null;
       return true;
     } catch (error) {
+      lastWriteSucceeded = false;
+      lastWriteError = error;
       return false;
     }
   };
@@ -335,6 +341,10 @@
   };
 
   const getStore = () => {
+    if (!lastWriteSucceeded && memoryStore) {
+      return clone(memoryStore);
+    }
+
     const rawValue = readStoredValue();
 
     if (!rawValue) {
@@ -385,6 +395,8 @@
     resetStore,
     normalizeStore,
     formatPrice,
-    escapeHtml
+    escapeHtml,
+    didLastSavePersist: () => lastWriteSucceeded,
+    getLastSaveErrorMessage: () => lastWriteError?.message || ""
   };
 })();

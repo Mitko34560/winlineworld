@@ -131,12 +131,24 @@
           <div>
             <span class="chip">Gallery Editor</span>
             <h3>Галерея сайта</h3>
-            <p>Добавляй карточки для отдельной страницы галереи: заголовок, описание, ссылку на изображение и при необходимости кнопку перехода.</p>
+            <p>Добавляй карточки для отдельной страницы галереи: заголовок, описание, ссылку на изображение или локальный файл с компьютера.</p>
           </div>
 
           <div class="toolbar">
             <button class="ghost-button" type="button" id="addGalleryButton">Добавить кадр</button>
             <button class="button" type="button" id="saveGalleryButton">Сохранить галерею</button>
+          </div>
+        </div>
+
+        <div class="upload-panel">
+          <div>
+            <span class="chip">Local Upload</span>
+            <h3>Загрузка нескольких фото</h3>
+            <p>Выбери сразу несколько локальных изображений с компьютера. Каждый файл автоматически станет отдельной карточкой в галерее.</p>
+          </div>
+          <div class="upload-actions">
+            <input class="input file-input" id="galleryImportInput" type="file" accept="image/*" multiple>
+            <div class="editor-note">Поддерживаются JPG, PNG, WEBP и другие стандартные форматы. Картинки будут автоматически уменьшены перед сохранением.</div>
           </div>
         </div>
 

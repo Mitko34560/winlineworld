@@ -3,19 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WinlineWorld | Minecraft Сервер</title>
-  <meta name="description" content="WinlineWorld — современный Minecraft сервер с атмосферным дизайном, дружелюбным комьюнити и игровыми наборами.">
+  <title>WinlineWorld | Grief Survival Network</title>
+  <meta name="description" content="WinlineWorld — grief survival сервер с кланами, рейдами, PvP и новой фирменной подачей без шаблонного копипаста.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oxanium:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Unbounded:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="store.js" defer></script>
   <script src="script.js" defer></script>
 </head>
-<body>
-  <div class="page-glow page-glow-left"></div>
-  <div class="page-glow page-glow-right"></div>
-  <div class="grid-overlay"></div>
+<body class="page-home">
+  <div class="site-backdrop" aria-hidden="true">
+    <div class="backdrop-grid"></div>
+    <div class="backdrop-noise"></div>
+    <div class="backdrop-orb orb-a"></div>
+    <div class="backdrop-orb orb-b"></div>
+    <div class="backdrop-orb orb-c"></div>
+  </div>
 
   <header class="navbar" data-site-shell>
     <div class="container nav-inner">
@@ -33,7 +37,7 @@
       </button>
 
       <nav class="nav-menu">
-        <a href="#server-info">Информация</a>
+        <a href="#server-info">Навигация</a>
         <a href="#donate">Привилегии</a>
         <a href="#news">Новости</a>
         <a href="gallery.html">Галерея</a>
@@ -43,226 +47,291 @@
   </header>
 
   <div class="maintenance-banner" id="maintenanceBanner" hidden>
-    <div class="container">
-      <strong>Техническа поддръжка</strong>
+    <div class="container maintenance-banner-inner">
+      <strong>Технические работы</strong>
       <span id="maintenanceText"></span>
     </div>
   </div>
 
   <section class="maintenance-screen" id="maintenanceScreen" hidden>
-    <div class="container maintenance-screen-inner">
-      <span class="section-kicker">Технические работы</span>
-      <h1>WinlineWorld</h1>
-      <p id="maintenanceScreenText">Сайт закрыт на технические работы. Пожалуйста, зайдите позже.</p>
+    <div class="container">
+      <div class="maintenance-screen-inner">
+        <span class="eyebrow">Service Hold</span>
+        <h1>WinlineWorld</h1>
+        <p id="maintenanceScreenText">Сайт временно закрыт на технические работы. Пожалуйста, зайдите позже.</p>
+      </div>
     </div>
   </section>
 
   <main id="top" data-site-shell>
-    <section class="hero section">
-      <div class="container hero-layout">
+    <section class="section hero">
+      <div class="container hero-shell">
         <div class="hero-copy reveal">
-          <div class="server-status" aria-label="Статус онлайна сервера">
-            <span class="server-status-dot"></span>
-            <span class="server-status-text">0 / 100 ONLINE</span>
+          <div class="hero-badge-row">
+            <div class="server-status" aria-label="Статус сервера">
+              <span class="server-status-dot"></span>
+              <span class="server-status-text">JOIN READY / 24-7</span>
+            </div>
+            <span class="hero-chip">Season 04</span>
           </div>
-          <div class="hero-badge">Гриферский сервер</div>
+
+          <span class="eyebrow">Grief Survival Network</span>
           <h1>WinlineWorld</h1>
-          <p>Атмосферный гриферский сервер с PvP, выживанием, кланами и крутыми возможностями для каждого игрока</p>
+          <p class="hero-lead">Новая оболочка для сервера, где в центре не копия чужого лендинга, а живая атмосфера рейдов, PvP, клановых вылазок и быстрого входа в игру.</p>
 
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#server-info" data-copy="winlineworld.veroid.fun">Играть</a>
-            <a class="btn btn-secondary" href="#donate">Смотреть наборы</a>
+            <a class="btn btn-primary" href="#server-info" data-copy="winlineworld.veroid.fun">Играть сейчас</a>
+            <a class="btn btn-secondary" href="#donate">Смотреть привилегии</a>
           </div>
 
-          <div class="hero-stats">
-            <div class="stat-card">
-              <span class="stat-label">IP сервера</span>
+          <div class="hero-meta">
+            <article class="meta-card">
+              <span class="meta-label">IP сервера</span>
               <strong>winlineworld.veroid.fun</strong>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">Поддержка</span>
-              <strong>Discord 24/7</strong>
-            </div>
+              <p>Нажмите кнопку выше, чтобы скопировать адрес и сразу зайти в игру.</p>
+            </article>
+            <article class="meta-card">
+              <span class="meta-label">Комьюнити</span>
+              <strong>Discord и форум</strong>
+              <p>Анонсы, поддержка, сборки и новости сервера всегда под рукой.</p>
+            </article>
           </div>
         </div>
 
-        <div class="hero-visual reveal">
-          <div class="scene-card">
-            <div class="scene-aura"></div>
-            <div class="scene-runes">GRIEF • PVP • CLANS • SURVIVAL</div>
-            <div class="scene-emblem">
-              <div class="scene-emblem-ring"></div>
-              <img class="scene-logo" src="logo.avif" alt="WinlineWorld emblem">
+        <div class="hero-deck reveal">
+          <div class="control-card">
+            <div class="control-head">
+              <div>
+                <span class="control-kicker">Control Deck</span>
+                <h2>Точка входа в сезон</h2>
+              </div>
+              <span class="deck-pill">LIVE HUB</span>
             </div>
-            <div class="scene-badge scene-badge-left">
-              <span class="scene-badge-title">PvP</span>
-              <strong>Жесткие битвы</strong>
+
+            <div class="control-grid">
+              <article class="control-panel">
+                <span class="panel-index">01</span>
+                <h3>Старт без шума</h3>
+                <p>Быстрый доступ к IP, Discord и магазину без долгого поиска по страницам.</p>
+              </article>
+              <article class="control-panel">
+                <span class="panel-index">02</span>
+                <h3>Кланы и рейды</h3>
+                <p>Жесткий grief-ритм, PvP, командные вылазки и постоянная борьба за контроль.</p>
+              </article>
+              <article class="control-panel control-panel-wide">
+                <span class="panel-index">03</span>
+                <h3>Сайт как часть игры</h3>
+                <p>Новости, привилегии и медиа теперь выглядят как единый интерфейс проекта, а не очередной шаблон под копирку.</p>
+              </article>
             </div>
-            <div class="scene-badge scene-badge-right">
-              <span class="scene-badge-title">Кланы</span>
-              <strong>Командная игра</strong>
-            </div>
-            <div class="scene-badge scene-badge-bottom">
-              <span class="scene-badge-title">Рейды</span>
-              <strong>Лут и доминация</strong>
+
+            <div class="signal-strip">
+              <span>GRIEF</span>
+              <span>PVP</span>
+              <span>CLANS</span>
+              <span>EVENTS</span>
+              <span>SURVIVAL</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section info-section" id="server-info">
+    <section class="section route-section" id="server-info">
       <div class="container">
         <div class="section-heading reveal">
-          <span class="section-kicker">❗ Информация о сервере</span>
-          <h2>Все нужные ссылки в одном месте</h2>
+          <span class="eyebrow">Маршруты доступа</span>
+          <h2>Все главные точки сервера в одном боевом хабе</h2>
+          <p class="section-note">Мы собрали базовые переходы так, чтобы игрок добирался до игры, магазина и новостей без лишних экранов.</p>
         </div>
 
-        <div class="info-grid">
-          <a class="info-card reveal" href="#" data-copy="winlineworld.veroid.fun">
-            <span class="info-icon">IP</span>
+        <div class="route-grid">
+          <a class="route-card reveal" href="#server-info" data-copy="winlineworld.veroid.fun">
+            <span class="route-code">IP</span>
             <h3>winlineworld.veroid.fun</h3>
-            <p>Нажми, чтобы скопировать адрес сервера и зайти в игру быстрее.</p>
-            <span class="info-link">Скопировать IP</span>
+            <p>Скопировать адрес сервера и зайти в игру без ручного ввода.</p>
+            <span class="route-link">Скопировать адрес</span>
           </a>
 
-          <a class="info-card reveal" href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">
-            <span class="info-icon">DS</span>
+          <a class="route-card reveal" href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">
+            <span class="route-code">DS</span>
             <h3>Discord</h3>
-            <p>Общение с игроками, новости сервера и быстрый контакт с администрацией.</p>
-            <span class="info-link">Перейти в Discord</span>
+            <p>Живые анонсы, поддержка игроков, общение и быстрый контакт с администрацией.</p>
+            <span class="route-link">Открыть Discord</span>
           </a>
 
-          <a class="info-card reveal" href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">
-            <span class="info-icon">FR</span>
+          <a class="route-card reveal" href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">
+            <span class="route-code">FR</span>
             <h3>Форум</h3>
-            <p>Следи за обновлениями, обсуждениями и важными объявлениями проекта.</p>
-            <span class="info-link">Открыть форум</span>
+            <p>Правила, обсуждения, объявления проекта и отдельные темы по обновлениям.</p>
+            <span class="route-link">Перейти на форум</span>
           </a>
 
-          <a class="info-card reveal" href="gallery.html">
-            <span class="info-icon">GL</span>
+          <a class="route-card reveal" href="gallery.html">
+            <span class="route-code">GL</span>
             <h3>Галерея</h3>
-            <p>Открой отдельную страницу со скриншотами сервера, локациями, PvP-моментами и кадрами сообщества.</p>
-            <span class="info-link">Перейти в галерею</span>
+            <p>Скриншоты спавна, PvP, ивентов и атмосферы сервера на отдельной странице.</p>
+            <span class="route-link">Открыть галерею</span>
           </a>
+        </div>
 
+        <div class="trust-bar reveal">
+          <div class="trust-item">
+            <strong>24/7</strong>
+            <span>поддержка через Discord</span>
+          </div>
+          <div class="trust-item">
+            <strong>Shop</strong>
+            <span>привилегии подключаются через Stripe</span>
+          </div>
+          <div class="trust-item">
+            <strong>Media</strong>
+            <span>новости и кадры обновляются из админ-панели</span>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="section donate-section" id="donate">
       <div class="container">
-        <div class="shop-head reveal">
-          <div class="shop-title-block">
-            <div class="shop-title-icon" aria-hidden="true">▣</div>
-            <div class="shop-title-copy">
-              <span class="shop-kicker">Магазин привилегий</span>
-              <h2>Прокачай свой игровой опыт на WinlineWorld</h2>
-            </div>
+        <div class="section-heading section-heading-split reveal">
+          <div>
+            <span class="eyebrow">Store Matrix</span>
+            <h2>Привилегии с новой подачей и быстрым переходом к оплате</h2>
           </div>
+          <p class="section-note" id="shopNotice"></p>
+        </div>
 
-          <div class="shop-benefits">
-            <div class="shop-benefit">Безопасная оплата</div>
-            <div class="shop-benefit">Моментальная выдача</div>
-            <div class="shop-benefit">Поддержка 24/7</div>
+        <div class="donate-grid" id="donateGrid"></div>
+      </div>
+    </section>
+
+    <section class="section spotlight-section">
+      <div class="container spotlight-shell">
+        <div class="spotlight-copy reveal">
+          <span class="eyebrow">Игровой ритм</span>
+          <h2>Сайт говорит языком сервера, а не шаблонов</h2>
+          <p class="section-note">Новая система блоков, резкие формы, кислотные акценты и темный стальной фон создают визуал, который легко отличить с первого экрана.</p>
+
+          <div class="timeline-list">
+            <article class="timeline-item">
+              <span>01</span>
+              <div>
+                <h3>Быстрый старт</h3>
+                <p>Игрок заходит, копирует IP, видит маршруты и сразу понимает куда идти дальше.</p>
+              </div>
+            </article>
+            <article class="timeline-item">
+              <span>02</span>
+              <div>
+                <h3>Прямая витрина</h3>
+                <p>Привилегии показаны как части одной боевой линейки, а не как случайные карточки.</p>
+              </div>
+            </article>
+            <article class="timeline-item">
+              <span>03</span>
+              <div>
+                <h3>Медиа без мусора</h3>
+                <p>Новости и галерея встроены в стиль проекта и обновляются из общей системы данных.</p>
+              </div>
+            </article>
           </div>
         </div>
 
-        <p class="section-note reveal" id="shopNotice"></p>
-        <div class="donate-grid" id="donateGrid"></div>
+        <div class="spotlight-panels reveal">
+          <article class="spotlight-panel">
+            <span class="spotlight-tag">Raid Route</span>
+            <h3>Кланы, рейды, вылазки</h3>
+            <p>Акцент на движении и напряжении вместо стерильных промо-блоков.</p>
+          </article>
+          <article class="spotlight-panel">
+            <span class="spotlight-tag">Server Pulse</span>
+            <h3>Новости и события</h3>
+            <p>Изменения сервера, ивенты и важные объявления лежат рядом с игровыми разделами.</p>
+          </article>
+          <article class="spotlight-panel">
+            <span class="spotlight-tag">Media Bay</span>
+            <h3>Галерея сезона</h3>
+            <p>Отдельная страница для кадров проекта с тем же визуальным почерком.</p>
+          </article>
+        </div>
       </div>
     </section>
 
     <section class="section news-section" id="news">
       <div class="container">
-        <div class="section-heading news-heading reveal">
-          <span class="section-kicker">Новости WinlineWorld</span>
-          <h2>Следи за обновлениями и важными событиями сервера</h2>
-          <p class="section-note news-note">Все главные анонсы проекта, ивенты и новые возможности теперь собраны в одном месте.</p>
+        <div class="section-heading section-heading-split reveal">
+          <div>
+            <span class="eyebrow">Broadcast Feed</span>
+            <h2>Главные обновления сервера теперь выглядят как часть системы управления</h2>
+          </div>
+          <p class="section-note">Раздел новостей берет данные из общего store и остается живым без ручной перепаковки страницы.</p>
         </div>
 
-        <div class="news-layout">
-          <article class="news-card news-card-featured reveal">
-            <span class="news-tag">Обновление</span>
-            <span class="news-date">03.04.2026</span>
-            <h3>Новый магазин привилегий уже на сайте</h3>
-            <p>Мы запустили обновленную витрину префиксов с удобными карточками, плавной анимацией и быстрым переходом к оплате.</p>
-            <a class="news-link" href="#donate">Открыть магазин</a>
-          </article>
-
-          <article class="news-card reveal">
-            <span class="news-tag">Событие</span>
-            <span class="news-date">01.04.2026</span>
-            <h3>Еженедельные ивенты и бонусы за активность</h3>
-            <p>На сервере стартовали новые активности, а за участие в событиях игроки получают награды, ресурсы и редкие бонусы.</p>
-            <a class="news-link" href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Смотреть в Discord</a>
-          </article>
-
-          <article class="news-card reveal">
-            <span class="news-tag">Информация</span>
-            <span class="news-date">29.03.2026</span>
-            <h3>Все анонсы проекта теперь в одном разделе</h3>
-            <p>Следи за новостями сервера, изменениями в правилах и будущими обновлениями здесь, а также на форуме проекта.</p>
-            <a class="news-link" href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">Открыть форум</a>
-          </article>
-        </div>
+        <div class="news-layout"></div>
       </div>
     </section>
 
-    <section class="section features-section" id="features">
+    <section class="section manifesto-section" id="features">
       <div class="container">
         <div class="section-heading reveal">
-          <span class="section-kicker">Почему выбрать нас</span>
-          <h2>Сервер, в который хочется возвращаться</h2>
+          <span class="eyebrow">Identity Layer</span>
+          <h2>Что теперь отличает WinlineWorld визуально</h2>
         </div>
 
-        <div class="features-grid">
-          <article class="feature-card reveal">
-            <div class="feature-icon">⚡</div>
-            <h3>Быстрый сервер</h3>
-            <p>Стабильная работа, плавный геймплей и минимальный отклик даже в активные часы.</p>
+        <div class="manifesto-grid">
+          <article class="manifesto-card reveal">
+            <span class="manifesto-index">A1</span>
+            <h3>Новая типографика</h3>
+            <p>Геометричный заголовочный шрифт и плотный текстовый ритм дают проекту собственный голос.</p>
           </article>
+          <article class="manifesto-card reveal">
+            <span class="manifesto-index">B2</span>
+            <h3>Жесткая геометрия</h3>
+            <p>Скошенные панели, технические линии и контрастные бордеры задают узнаваемую форму.</p>
+          </article>
+          <article class="manifesto-card reveal">
+            <span class="manifesto-index">C3</span>
+            <h3>Неон без клише</h3>
+            <p>Мы ушли от стандартной фиолетовой схемы и собрали палитру из кислотного лайма, циана и теплого сигнала.</p>
+          </article>
+          <article class="manifesto-card reveal">
+            <span class="manifesto-index">D4</span>
+            <h3>Единая система</h3>
+            <p>Главная, магазин, новости, галерея и скрытая админ-панель говорят одним визуальным языком.</p>
+          </article>
+        </div>
 
-          <article class="feature-card reveal">
-            <div class="feature-icon">🛒</div>
-            <h3>Донат без лагов</h3>
-            <p>Покупки проходят быстро и удобно, а привилегии выдаются без лишнего ожидания.</p>
-          </article>
-
-          <article class="feature-card reveal">
-            <div class="feature-icon">🤝</div>
-            <h3>Дружелюбное комьюнити</h3>
-            <p>Активные игроки, поддержка новичков и комфортная атмосфера для всех участников.</p>
-          </article>
-
-          <article class="feature-card reveal">
-            <div class="feature-icon">🚀</div>
-            <h3>Частые обновления</h3>
-            <p>Новые режимы, улучшения и игровые события, которые делают проект живым и интересным.</p>
-          </article>
+        <div class="cta-panel reveal">
+          <div>
+            <span class="eyebrow">Media Route</span>
+            <h2>Посмотреть кадры сервера и собрать визуальную хронику сезона</h2>
+          </div>
+          <a class="btn btn-primary" href="gallery.html">Открыть галерею</a>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer" id="footer" data-site-shell>
+  <footer class="footer" data-site-shell>
     <div class="container footer-inner">
-      <div>
+      <div class="footer-brand-block">
         <a class="brand footer-brand" href="#top">
           <span class="brand-logo">
             <img class="brand-logo-image" src="logo.avif" alt="WinlineWorld logo">
           </span>
           <span class="brand-text">WinlineWorld</span>
         </a>
-        <p>WinlineWorld © 2026</p>
+        <p>Новая подача сервера, собранная в единую систему WinlineWorld © 2026</p>
       </div>
 
       <div class="footer-links">
+        <a href="#server-info">Навигация</a>
+        <a href="#donate">Привилегии</a>
         <a href="gallery.html">Галерея</a>
         <a href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Discord</a>
         <a href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">Форум</a>
-        <a href="#donate">Донат</a>
       </div>
     </div>
   </footer>
@@ -271,9 +340,9 @@
     <div class="admin-backdrop" data-admin-close></div>
     <div class="admin-modal">
       <button class="admin-close" type="button" aria-label="Закрыть вход" data-admin-close>&times;</button>
-      <span class="admin-chip">Admin Access</span>
-      <h2>Панель управления WinlineWorld</h2>
-      <p>Введите пароль администратора, чтобы открыть скрытую панель.</p>
+      <span class="admin-chip">Control Access</span>
+      <h2>Скрытая панель WinlineWorld</h2>
+      <p>Введите пароль администратора, чтобы открыть быстрый центр управления проектом.</p>
 
       <form class="admin-form" id="adminLoginForm">
         <label class="admin-label" for="adminPassword">Пароль</label>
@@ -290,8 +359,8 @@
       <div class="admin-panel-head">
         <div>
           <span class="admin-chip">Hidden Control</span>
-          <h2>WinlineWorld Admin Panel</h2>
-          <p>Быстрый доступ к основным ссылкам, управлению и информации сервера.</p>
+          <h2>Быстрый центр управления</h2>
+          <p>Переход к управлению магазином, новостями, галереей и главным внешним ссылкам проекта.</p>
         </div>
 
         <div class="admin-toolbar">
@@ -302,39 +371,39 @@
 
       <div class="admin-panel-grid">
         <article class="admin-card">
-          <span class="admin-card-label">Статус</span>
+          <span class="admin-card-label">Status</span>
           <h3>Основные данные</h3>
           <ul class="admin-list">
             <li>Сервер: WinlineWorld</li>
             <li>IP: winlineworld.veroid.fun</li>
-            <li>Discord: подключён</li>
-            <li>Донат: Stripe магазин</li>
+            <li>Discord: подключен</li>
+            <li>Store: Stripe витрина</li>
           </ul>
         </article>
 
         <article class="admin-card">
-          <span class="admin-card-label">Быстрые действия</span>
-          <h3>Управление ссылками</h3>
+          <span class="admin-card-label">Links</span>
+          <h3>Быстрые переходы</h3>
           <div class="admin-actions">
             <button class="admin-action" type="button" data-copy="winlineworld.veroid.fun">Скопировать IP</button>
-            <a class="admin-action" href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Открыть Discord</a>
-            <a class="admin-action" href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">Открыть форум</a>
-            <a class="admin-action" href="gallery.html">Открыть галерею</a>
-            <a class="admin-action" href="admins.html">Открыть /admins</a>
-            <a class="admin-action" href="editor.html">Редактор привилегий</a>
+            <a class="admin-action" href="https://discord.gg/x6GWKRKdkc" target="_blank" rel="noopener noreferrer">Discord</a>
+            <a class="admin-action" href="https://f-winlineworld.hgweb.ru/index.php" target="_blank" rel="noopener noreferrer">Форум</a>
+            <a class="admin-action" href="gallery.html">Галерея</a>
+            <a class="admin-action" href="admins.html">/admins</a>
+            <a class="admin-action" href="editor.html">Редактор</a>
           </div>
         </article>
 
         <article class="admin-card">
-          <span class="admin-card-label">Привилегии</span>
-          <h3>Обзор магазина</h3>
+          <span class="admin-card-label">Store</span>
+          <h3>Обзор привилегий</h3>
           <ul class="admin-list" id="adminPrivilegeSummary"></ul>
         </article>
 
         <article class="admin-card admin-card-wide">
-          <span class="admin-card-label">Примечание</span>
-          <h3>Как теперь устроен доступ</h3>
-          <p>Скрытая панель на главной снова работает как быстрый хаб. Классическая админ-панель открывается на странице /admins, а редактирование привилегий и Stripe-ссылок вынесено на отдельную страницу editor с тем же паролем.</p>
+          <span class="admin-card-label">Access Map</span>
+          <h3>Как устроено управление</h3>
+          <p>Главная скрытая панель работает как быстрый хаб. Полная админ-страница находится в <strong>/admins</strong>, а отдельный редактор магазина и Stripe-ссылок вынесен на страницу <strong>editor</strong>.</p>
         </article>
       </div>
     </div>

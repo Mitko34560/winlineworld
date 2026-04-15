@@ -1,4 +1,4 @@
-﻿const navToggle = document.querySelector(".nav-toggle");
+const navToggle = document.querySelector(".nav-toggle");
 const navMenu = document.querySelector(".nav-menu");
 const navLinks = document.querySelectorAll(".nav-menu a");
 const toast = document.getElementById("toast");
@@ -8,6 +8,8 @@ const newsGrid = document.querySelector(".news-layout");
 const galleryGrid = document.getElementById("galleryGrid");
 const galleryCount = document.getElementById("galleryCount");
 const shopNotice = document.getElementById("shopNotice");
+const maintenanceBanner = document.getElementById("maintenanceBanner");
+const maintenanceText = document.getElementById("maintenanceText");
 const maintenanceScreen = document.getElementById("maintenanceScreen");
 const maintenanceScreenText = document.getElementById("maintenanceScreenText");
 const siteShell = document.querySelectorAll("[data-site-shell]");
@@ -20,9 +22,10 @@ const adminError = document.getElementById("adminError");
 const adminCloseButtons = document.querySelectorAll("[data-admin-close]");
 const adminLogoutButtons = document.querySelectorAll("[data-admin-logout]");
 const adminClosePanelButtons = document.querySelectorAll("[data-admin-close-panel]");
+
 const ADMIN_SESSION_KEY = "winlineworld_admin_session";
 const ADMIN_PASSWORD_HASH = "d3171829b03043f80e6b1ebcced54c866f86f1a78b173da1f718a18810d5549b";
-const MAINTENANCE_LABEL = "РЎР°Р№С‚ Р·Р°РєСЂС‹С‚ РЅР° С‚РµС…РЅРёС‡РµСЃРєРёРµ СЂР°Р±РѕС‚С‹";
+const MAINTENANCE_LABEL = "Сайт временно закрыт на технические работы.";
 
 let adminTriggerCount = 0;
 let adminTriggerTimer = 0;
@@ -100,7 +103,7 @@ const logoutAdmin = () => {
   sessionStorage.removeItem(ADMIN_SESSION_KEY);
   closeAdminPanel();
   closeAdminAuth();
-  showToast("Р’С‹С…РѕРґ РёР· Р°РґРјРёРЅ-РїР°РЅРµР»Рё РІС‹РїРѕР»РЅРµРЅ");
+  showToast("Выход из панели выполнен");
 };
 
 const isAdminSessionActive = () => sessionStorage.getItem(ADMIN_SESSION_KEY) === "1";
@@ -125,7 +128,7 @@ const requestAdminAccess = () => {
 const copyText = async (text) => {
   try {
     await navigator.clipboard.writeText(text);
-    showToast("IP СЃРµСЂРІРµСЂР° СЃРєРѕРїРёСЂРѕРІР°РЅ");
+    showToast("IP сервера скопирован");
     return true;
   } catch (error) {
     const fallbackInput = document.createElement("input");
@@ -135,10 +138,10 @@ const copyText = async (text) => {
 
     try {
       document.execCommand("copy");
-      showToast("IP СЃРµСЂРІРµСЂР° СЃРєРѕРїРёСЂРѕРІР°РЅ");
+      showToast("IP сервера скопирован");
       return true;
     } catch (fallbackError) {
-      showToast("РЎРєРѕРїРёСЂСѓР№С‚Рµ РІСЂСѓС‡РЅСѓСЋ: " + text);
+      showToast(`Скопируйте вручную: ${text}`);
       return false;
     } finally {
       fallbackInput.remove();
@@ -170,66 +173,63 @@ const renderDonateCards = (store) => {
   }
 
   const { escapeHtml, formatPrice } = window.WinlineStore;
+  const maintenanceMode = Boolean(store.maintenanceEnabled);
   const themes = [
-    { className: "theme-nova", symbol: "N" },
-    { className: "theme-orbit", symbol: "O" },
-    { className: "theme-pulse", symbol: "P" },
-    { className: "theme-aether", symbol: "A" },
-    { className: "theme-vortex", symbol: "V" },
-    { className: "theme-nebula", symbol: "N" },
-    { className: "theme-titan", symbol: "T" },
-    { className: "theme-eclipse", symbol: "E" },
-    { className: "theme-cosmos", symbol: "C" }
+    "theme-nova",
+    "theme-orbit",
+    "theme-pulse",
+    "theme-aether",
+    "theme-vortex",
+    "theme-nebula",
+    "theme-titan",
+    "theme-eclipse",
+    "theme-cosmos"
   ];
 
   const cards = store.privileges.map((privilege, index) => {
-    const theme = themes[index % themes.length];
+    const title = escapeHtml(privilege.name);
+    const description = escapeHtml(privilege.description);
+    const price = escapeHtml(formatPrice(privilege));
     const perks = privilege.perks.length
       ? privilege.perks.map((perk) => `<li>${escapeHtml(perk)}</li>`).join("")
       : "<li>Список бонусов скоро появится</li>";
     const buyUrl = privilege.stripeUrl.trim();
     const hasStripe = /^https?:\/\//i.test(buyUrl);
-    const maintenanceMode = Boolean(store.maintenanceEnabled);
-    const cardClasses = `donate-card reveal ${theme.className}${privilege.featured ? " featured-card" : ""}${maintenanceMode ? " is-maintenance" : ""}`;
     const canOpen = hasStripe && !maintenanceMode;
-    const buttonClasses = `donate-card-action${canOpen ? "" : " is-disabled"}`;
-    const buttonAttrs = canOpen
-      ? `href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener noreferrer"`
-      : `href="admins.html"`;
     const note = maintenanceMode
       ? MAINTENANCE_LABEL
       : hasStripe
-      ? "Переход на защищенную страницу Stripe."
-      : "Stripe-ссылка пока не настроена в админ-панели.";
-    const title = escapeHtml(privilege.name);
-    const price = escapeHtml(formatPrice(privilege));
-    const description = escapeHtml(privilege.description);
+      ? "Переход на защищенную страницу оплаты Stripe."
+      : "Stripe-ссылка пока не настроена.";
+    const buttonAttrs = canOpen
+      ? `href="${escapeHtml(buyUrl)}" target="_blank" rel="noopener noreferrer"`
+      : 'href="admins.html"';
+    const buttonLabel = canOpen ? "Купить" : "Недоступно";
+    const cardClass = `donate-card reveal ${themes[index % themes.length]}${privilege.featured ? " featured-card" : ""}${maintenanceMode ? " is-maintenance" : ""}`;
 
     return `
-      <article class="${cardClasses}">
-        <div class="card-glow"></div>
-        <div class="donate-card-media">
-          <span class="donate-price">${price}</span>
-          <span class="donate-ribbon">-30%</span>
-          <div class="donate-art">
-            <div class="donate-art-core">
-              <img class="donate-art-logo" src="logo.avif" alt="" aria-hidden="true">
-              <span class="donate-art-letter">${escapeHtml(theme.symbol)}</span>
-            </div>
+      <article class="${cardClass}">
+        <div class="card-stripe" aria-hidden="true"></div>
+        <div class="donate-card-top">
+          <span class="donate-badge">${String(index + 1).padStart(2, "0")}</span>
+          <div class="donate-price-wrap">
+            <span class="donate-price-label">Store tier</span>
+            <strong class="donate-price">${price}</strong>
           </div>
         </div>
+
         <div class="donate-card-body">
           <div class="donate-card-head">
-            <div class="donate-card-copy">
-              <h3 class="donate-title">${title}</h3>
-              <p class="donate-description">${description}</p>
-            </div>
-            <a class="${buttonClasses}" ${buttonAttrs} aria-label="${canOpen ? `Открыть ${title}` : `Недоступно: ${title}`}">
-              <span aria-hidden="true">↗</span>
-            </a>
+            <h3 class="donate-title">${title}</h3>
+            ${privilege.featured ? '<span class="donate-chip">Выбор сезона</span>' : ""}
           </div>
+          <p class="donate-description">${description}</p>
           <ul class="donate-perks">${perks}</ul>
+        </div>
+
+        <div class="donate-card-footer">
           <span class="buy-note">${escapeHtml(note)}</span>
+          <a class="donate-card-action${canOpen ? "" : " is-disabled"}" ${buttonAttrs} aria-label="${canOpen ? `Открыть ${title}` : `Недоступно: ${title}`}">${buttonLabel}</a>
         </div>
       </article>
     `;
@@ -245,10 +245,14 @@ const renderAdminSummary = (store) => {
   }
 
   const { escapeHtml, formatPrice } = window.WinlineStore;
-  adminPrivilegeSummary.innerHTML = store.privileges.map((privilege) => {
-    const stripeState = privilege.stripeUrl ? "Stripe РїРѕРґРєР»СЋС‡РµРЅ" : "Stripe РЅРµ РЅР°СЃС‚СЂРѕРµРЅ";
-    return `<li>${escapeHtml(privilege.name)} вЂ” ${escapeHtml(formatPrice(privilege))} вЂў ${escapeHtml(stripeState)}</li>`;
-  }).join("");
+  const privileges = Array.isArray(store.privileges) ? store.privileges : [];
+
+  adminPrivilegeSummary.innerHTML = privileges.length
+    ? privileges.map((privilege) => {
+      const stripeState = privilege.stripeUrl ? "Stripe готов" : "Stripe не задан";
+      return `<li>${escapeHtml(privilege.name)} — ${escapeHtml(formatPrice(privilege))} • ${escapeHtml(stripeState)}</li>`;
+    }).join("")
+    : "<li>Привилегии пока не добавлены.</li>";
 };
 
 const renderNewsCards = (store) => {
@@ -257,34 +261,39 @@ const renderNewsCards = (store) => {
   }
 
   const { escapeHtml } = window.WinlineStore;
-  const cards = store.news.map((item) => {
-    const cardClass = `news-card reveal${item.featured ? " news-card-featured" : ""}`;
-    const href = item.linkUrl && item.linkUrl.trim() ? item.linkUrl.trim() : "#news";
-    const external = /^https?:\/\//i.test(href);
-    const attrs = external
-      ? `href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer"`
-      : `href="${escapeHtml(href)}"`;
+  const items = Array.isArray(store.news) ? store.news : [];
 
-    return `
-      <article class="${cardClass}">
-        <span class="news-tag">${escapeHtml(item.tag)}</span>
-        <span class="news-date">${escapeHtml(item.date)}</span>
-        <h3>${escapeHtml(item.title)}</h3>
-        <p>${escapeHtml(item.text)}</p>
-        <a class="news-link" ${attrs}>${escapeHtml(item.linkLabel)}</a>
+  newsGrid.innerHTML = items.length
+    ? items.map((item) => {
+      const href = item.linkUrl && item.linkUrl.trim() ? item.linkUrl.trim() : "#news";
+      const external = /^https?:\/\//i.test(href);
+      const attrs = external
+        ? `href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer"`
+        : `href="${escapeHtml(href)}"`;
+
+      return `
+        <article class="news-card reveal${item.featured ? " news-card-featured" : ""}">
+          <div class="news-meta">
+            <span class="news-tag">${escapeHtml(item.tag)}</span>
+            <span class="news-date">${escapeHtml(item.date)}</span>
+          </div>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.text)}</p>
+          <a class="news-link" ${attrs}>${escapeHtml(item.linkLabel)}</a>
+        </article>
+      `;
+    }).join("")
+    : `
+      <article class="news-card reveal">
+        <div class="news-meta">
+          <span class="news-tag">Новости</span>
+          <span class="news-date">Скоро</span>
+        </div>
+        <h3>Раздел новостей пока пуст</h3>
+        <p>Добавьте первую новость через админ-панель, и она сразу появится на сайте.</p>
+        <a class="news-link" href="admins.html">Открыть админ-панель</a>
       </article>
     `;
-  }).join("");
-
-  newsGrid.innerHTML = cards || `
-    <article class="news-card reveal">
-      <span class="news-tag">Новости</span>
-      <span class="news-date">Скоро</span>
-      <h3>Раздел новостей пока пуст</h3>
-      <p>Добавьте первую новость через админ-панель, и она сразу появится на сайте.</p>
-      <a class="news-link" href="admins.html">Открыть админ-панель</a>
-    </article>
-  `;
 
   observeRevealItems(newsGrid);
 };
@@ -321,46 +330,53 @@ const renderGalleryCards = (store) => {
     galleryCount.textContent = formatGalleryCount(items.length);
   }
 
-  galleryGrid.innerHTML = items.length ? items.map((item) => {
-    const hasImage = Boolean(item.imageUrl && item.imageUrl.trim());
-    const href = item.linkUrl && item.linkUrl.trim();
-    const external = href && /^https?:\/\//i.test(href);
-    const cardClass = `gallery-card reveal${item.featured ? " gallery-card-featured" : ""}`;
-    const media = hasImage
-      ? `<img class="gallery-image" src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.alt || item.title)}" loading="lazy">`
-      : `
-        <div class="gallery-placeholder" aria-hidden="true">
-          <img src="logo.avif" alt="">
-          <span>${escapeHtml(item.label || "WinlineWorld")}</span>
-        </div>
-      `;
-    const link = href
-      ? `<a class="gallery-card-link" href="${escapeHtml(href)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ""}>Открыть</a>`
-      : "";
+  galleryGrid.innerHTML = items.length
+    ? items.map((item) => {
+      const hasImage = Boolean(item.imageUrl && item.imageUrl.trim());
+      const href = item.linkUrl && item.linkUrl.trim();
+      const external = href && /^https?:\/\//i.test(href);
+      const media = hasImage
+        ? `<img class="gallery-image" src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.alt || item.title)}" loading="lazy">`
+        : `
+          <div class="gallery-placeholder" aria-hidden="true">
+            <img src="logo.avif" alt="">
+            <span>${escapeHtml(item.label || "WinlineWorld")}</span>
+          </div>
+        `;
+      const link = href
+        ? `<a class="gallery-card-link" href="${escapeHtml(href)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ""}>Открыть</a>`
+        : "";
 
-    return `
-      <article class="${cardClass}">
+      return `
+        <article class="gallery-card reveal${item.featured ? " gallery-card-featured" : ""}">
+          <div class="gallery-media">
+            ${media}
+          </div>
+          <div class="gallery-copy">
+            <span class="gallery-chip">${escapeHtml(item.label)}</span>
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.text)}</p>
+            ${link}
+          </div>
+        </article>
+      `;
+    }).join("")
+    : `
+      <article class="gallery-card gallery-empty reveal">
         <div class="gallery-media">
-          ${media}
+          <div class="gallery-placeholder" aria-hidden="true">
+            <img src="logo.avif" alt="">
+            <span>WinlineWorld</span>
+          </div>
         </div>
         <div class="gallery-copy">
-          <span class="gallery-chip">${escapeHtml(item.label)}</span>
-          <h3>${escapeHtml(item.title)}</h3>
-          <p>${escapeHtml(item.text)}</p>
-          ${link}
+          <span class="gallery-chip">Галерея</span>
+          <h3>Раздел пока пуст</h3>
+          <p>Добавьте первый кадр через админ-панель, и он сразу появится на этой странице.</p>
+          <a class="gallery-card-link" href="admins.html">Открыть админ-панель</a>
         </div>
       </article>
     `;
-  }).join("") : `
-    <article class="gallery-card gallery-empty reveal">
-      <div class="gallery-copy">
-        <span class="gallery-chip">Галерея</span>
-        <h3>Раздел пока пуст</h3>
-        <p>Добавьте первый кадр через админ-панель, и он сразу появится на этой странице.</p>
-        <a class="gallery-card-link" href="admins.html">Открыть админ-панель</a>
-      </div>
-    </article>
-  `;
 
   observeRevealItems(galleryGrid);
 };
@@ -371,23 +387,30 @@ const renderStore = (store) => {
   }
 
   const maintenanceMode = Boolean(store.maintenanceEnabled);
+  const maintenanceMessage = store.maintenanceMessage || MAINTENANCE_LABEL;
 
   siteShell.forEach((element) => {
     element.hidden = maintenanceMode;
   });
+
+  if (maintenanceBanner) {
+    maintenanceBanner.hidden = !maintenanceMode;
+  }
+
+  if (maintenanceText) {
+    maintenanceText.textContent = maintenanceMessage;
+  }
 
   if (maintenanceScreen) {
     maintenanceScreen.hidden = !maintenanceMode;
   }
 
   if (maintenanceScreenText) {
-    maintenanceScreenText.textContent = store.maintenanceMessage || MAINTENANCE_LABEL;
+    maintenanceScreenText.textContent = maintenanceMessage;
   }
 
   if (shopNotice) {
-    shopNotice.textContent = maintenanceMode
-      ? MAINTENANCE_LABEL
-      : store.shopNotice;
+    shopNotice.textContent = maintenanceMode ? MAINTENANCE_LABEL : store.shopNotice;
   }
 
   renderDonateCards(store);
@@ -472,14 +495,14 @@ adminLoginForm?.addEventListener("submit", async (event) => {
     hashedPassword = await sha256(password);
   } catch (error) {
     if (adminError) {
-      adminError.textContent = "Р‘СЂР°СѓР·РµСЂ РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚ Р±РµР·РѕРїР°СЃРЅСѓСЋ РїСЂРѕРІРµСЂРєСѓ РїР°СЂРѕР»СЏ";
+      adminError.textContent = "Браузер не поддерживает безопасную проверку пароля";
     }
     return;
   }
 
   if (hashedPassword !== ADMIN_PASSWORD_HASH) {
     if (adminError) {
-      adminError.textContent = "РќРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ";
+      adminError.textContent = "Неверный пароль";
     }
     adminPasswordInput?.select();
     return;
@@ -488,7 +511,7 @@ adminLoginForm?.addEventListener("submit", async (event) => {
   sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
   closeAdminAuth();
   openAdminPanel();
-  showToast("РђРґРјРёРЅ-РїР°РЅРµР»СЊ РѕС‚РєСЂС‹С‚Р°");
+  showToast("Админ-панель открыта");
 });
 
 if ("IntersectionObserver" in window) {
@@ -500,7 +523,7 @@ if ("IntersectionObserver" in window) {
       }
     });
   }, {
-    threshold: 0.16,
+    threshold: 0.14,
     rootMargin: "0px 0px -40px 0px"
   });
 }
@@ -514,4 +537,3 @@ if (window.WinlineStore) {
     renderStore(event.detail);
   });
 }
-
